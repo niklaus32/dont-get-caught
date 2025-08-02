@@ -3,7 +3,7 @@ import { createTimer } from "./timer.js";
 import { createTeacher } from "./teacher.js";
 
 export function createGameScene(k) {
-  setLayers(["teacher", "desk", "pencilBox", "iphone"], "desk");
+  setLayers(["teacher", "desk", "pencilBox", "stickyNote", "iphone"], "desk");
   const pencilBox = createPencilBox();
   const timer = createTimer();
   const teacher = createTeacher(k);
