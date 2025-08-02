@@ -1,6 +1,6 @@
 
 export function createWelcomeScene(k) {
-
+    loadBitmapFont("happy", "/examples/fonts/happy_28x36.png", 28, 36);
       // Add a background layer
     k.add([
         k.rect(k.width(), k.height()), // Create a rectangle that covers the screen
