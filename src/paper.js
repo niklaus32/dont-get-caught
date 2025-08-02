@@ -43,8 +43,7 @@ export function createPaper() {
         "g",          
         "h",          
         "i",          
-        "j",
-        "k"          
+        "j"          
     ];
     
     // Create the test paper positioned on the desk
