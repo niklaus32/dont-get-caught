@@ -1,24 +1,8 @@
 import { createPencilBox } from "./pencilbox.js";
 import { createTimer } from "./timer.js";
+import { createPaper } from "./paper.js";
 
 export function createGameScene(k) {
-  const pencilBox = createPencilBox();
-  const timer = createTimer();
-
-
-  // This rect object will be replace with user image
-  k.add([
-    k.pos(k.width() / 2 - 300, k.height() - 400),
-    k.rect(600, 400), //length is 600, width is 400
-    k.color(k.BLUE),
-    "shape",
-    {
-      getShape() {
-        return new k.Rect(this.pos, this.width, this.height);
-      },
-    },
-  ]);
-
   // this rect object will be replace with teacher image
   k.add([
     k.pos(k.width() / 2 - 300, 0),
@@ -31,6 +15,22 @@ export function createGameScene(k) {
       },
     },
   ]);
+  // This rect object will be replace with user image
+  k.add([
+    k.pos(k.width() / 2 - 300, k.height() - 400),
+    k.rect(600, 400), //length is 600, width is 400
+    k.color(k.BLUE),
+
+    "shape",
+    {
+      getShape() {
+        return new k.Rect(this.pos, this.width, this.height);
+      },
+    },
+  ]);
+  const pencilBox = createPencilBox();
+  const timer = createTimer();
+  const paper = createPaper();
 
   // add iphone
   k.loadSprite("phone", "../public/sprites/iphone.png");
