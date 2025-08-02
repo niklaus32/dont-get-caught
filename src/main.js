@@ -138,7 +138,9 @@ phone_icon.onClick(() => {
   iphoneState = !iphoneState;
 });
 
-
-
 import { createPencilBox } from "./pencilbox.js";
+import { createTimer } from "./timer.js";
+import { showGameOverScreen } from "./gameoverScreen.js";
+
 createPencilBox();
+createTimer();
