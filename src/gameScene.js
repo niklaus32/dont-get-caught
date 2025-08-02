@@ -1,43 +1,41 @@
-import kaplay from "kaplay";
+import { createPencilBox } from "./pencilbox.js";
 import { createTimer } from "./timer.js";
 
-const k = kaplay({
-  background: "#5ba675",
-  font: "happy",
-});
-scene("game", () => {
-  debug.log("Hello from game!");
+export function createGameScene(k) {
+  const pencilBox = createPencilBox();
+  const timer = createTimer();
+
 
   // This rect object will be replace with user image
-  add([
-    pos(width() / 2 - 300, height() - 400),
-    rect(600, 400), //length is 600, width is 200
-    color(BLUE),
+  k.add([
+    k.pos(k.width() / 2 - 300, k.height() - 400),
+    k.rect(600, 400), //length is 600, width is 400
+    k.color(k.BLUE),
     "shape",
     {
       getShape() {
-        return new Rect(this.pos, this.widht, this.height);
+        return new k.Rect(this.pos, this.width, this.height);
       },
     },
   ]);
 
   // this rect object will be replace with teacher image
-  add([
-    pos(width() / 2 - 300, 0),
-    rect(600, 300),
-    color(RED),
+  k.add([
+    k.pos(k.width() / 2 - 300, 0),
+    k.rect(600, 300),
+    k.color(k.RED),
     "shape",
     {
       getShape() {
-        return new Rect(this.pos, this.widht, this.height);
+        return new k.Rect(this.pos, this.width, this.height);
       },
     },
   ]);
 
   // add iphone
-  loadSprite("phone", "../public/sprites/iphone.png");
-  loadSprite("google", "../public/sprites/google.png");
-  loadSprite("close", "../public/sprites/close.png");
+  k.loadSprite("phone", "../public/sprites/iphone.png");
+  k.loadSprite("google", "../public/sprites/google.png");
+  k.loadSprite("close", "../public/sprites/close.png");
   let googleText;
   let iphoneState = false;
   let phoneWindow;
@@ -47,35 +45,35 @@ scene("game", () => {
   let currentInput = "";
   let finalText = "";
   let inputText;
-  const phone_icon = add([
-    sprite("phone"),
-    pos(width() / 2, height() / 2),
-    scale(0.1), // scale to 50%
-    area(), // enables hover/click
+  const phone_icon = k.add([
+    k.sprite("phone"),
+    k.pos(k.width() / 2, k.height() / 2),
+    k.scale(0.1), // scale to 50%
+    k.area(), // enables hover/click
     "phone_icon",
   ]);
 
   function inputTextUpdate(w, h) {
     // destroy old
     if (inputText) {
-      destroy(inputText);
+      k.destroy(inputText);
     }
     currentInput = "";
     // re-create
-    inputText = add([
-      text("", {
+    inputText = k.add([
+      k.text("", {
         width: google_width + 100, // max pixel width
         wrap: "none", // no wrapping
       }),
-      pos(w, h),
-      color(rgb(0, 0, 0)),
+      k.pos(w, h),
+      k.color(rgb(0, 0, 0)),
     ]);
   }
 
   // **Register these only once** (at the top, after kaplay() etc):
   let fullText = "";
   const MAX_CHARS = 30;
-  onCharInput((ch) => {
+  k.onCharInput((ch) => {
     if (!iphoneState) return;
     // append to the real buffer
     fullText += ch;
@@ -87,7 +85,7 @@ scene("game", () => {
     debug.log("final input:", finalText);
   });
 
-  onKeyPress("backspace", () => {
+  k.onKeyPress("backspace", () => {
     if (!iphoneState) return;
     fullText = fullText.slice(0, -1);
     let visible = fullText.slice(-MAX_CHARS);
@@ -144,23 +142,4 @@ scene("game", () => {
     iphoneState = !iphoneState;
   });
 
-  createTimer();
-});
-
-// Manage resources by scenes
-import { createWelcomeScene } from "./welcomScene.js";
-import { createGameScene } from "./gameScene.js";
-import {
-  showGameOverScreen,
-  showCheatingGameOverScreen,
-} from "./gameoverScreen.js";
-
-scene("welcome", () => createWelcomeScene(k));
-scene("game", () => createGameScene(k));
-scene("gameover", () => showGameOverScreen(k));
-
-function start() {
-  // Start the welcome scene
-  go("welcome");
 }
-start();
