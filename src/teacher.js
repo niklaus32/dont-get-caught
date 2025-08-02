@@ -35,6 +35,7 @@ export function createTeacher() {
     scale(1),
     anchor("center"),
     pos(center().add(0, -50)),
+    layer("teacher"),
   ]);
 
   teacherTimer(1, 100);

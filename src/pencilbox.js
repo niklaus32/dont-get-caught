@@ -11,7 +11,9 @@ export function createPencilBox() {
     anchor("center"),
     area(), // enables hover/click
     "pencilBox",
+    layer("pencilBox"),
     ]);
+    
     pencilBox.onHover(() => {
     if (!pencilBox.isEnlarged) {
         pencilBox.scale = vec2(pencilBoxSize + 0.3);        
