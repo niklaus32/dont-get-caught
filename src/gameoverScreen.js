@@ -1,3 +1,7 @@
+// Game over scenario 1: Timer ended or exam completed early
+// Call this function when:
+// - Timer reaches 0 (time's up)
+// - Player completes all questions before timer ends (early submission)
 export function showGameOverScreen(score) {
   // Load font
   loadBitmapFont("unscii", "public/examples/fonts/unscii_8x8.png", 8, 8);
@@ -65,4 +69,77 @@ export function showGameOverScreen(score) {
     // Restart the game by reloading the page
     location.reload();
   });
+}
+
+// Game over scenario 2: Caught cheating
+// Call this function when:
+// - Player is caught cheating by teacher
+// - Any other cheating detection scenario
+export function showCheatingGameOverScreen() {
+  // Load font
+  loadBitmapFont("unscii", "public/examples/fonts/unscii_8x8.png", 8, 8);
+
+  // Create semi-transparent overlay
+  const overlay = add([
+    rect(width(), height()),
+    pos(0, 0),
+    color(rgb(0, 0, 0)),
+    opacity(0.7),
+    layer("ui"),
+  ]);
+
+  // Game over message
+  const gameOverText = add([
+    text("GAME OVER", {
+      font: "unscii",
+      size: 24,
+    }),
+    pos(width() / 2, height() / 2 - 60),
+    color(rgb(255, 0, 0)),
+    layer("ui"),
+    anchor("center"),
+  ]);
+
+  // Cheating failure message
+  const failureText = add([
+    text("You were caught cheating!", {
+      font: "unscii",
+      size: 18,
+    }),
+    pos(width() / 2, height() / 2 - 20),
+    color(rgb(255, 255, 255)),
+    layer("ui"),
+    anchor("center"),
+  ]);
+
+  // Restart button
+  const restartButton = add([
+    text("Play Again", {
+      font: "unscii",
+      size: 16,
+    }),
+    pos(width() / 2, height() / 2 + 40),
+    color(rgb(255, 255, 255)),
+    layer("ui"),
+    anchor("center"),
+    area(),
+  ]);
+
+  // Button hover effect
+  restartButton.onHover(() => {
+    restartButton.color = rgb(255, 255, 0);
+  });
+
+  restartButton.onHoverEnd(() => {
+    restartButton.color = rgb(255, 255, 255);
+  });
+
+  // Restart game on click
+  restartButton.onClick(() => {
+    // Restart the game by reloading the page
+    location.reload();
+  });
+
+  // Play failure sound effect (placeholder - you can add actual sound file)
+  // play("failure_sound");
 }

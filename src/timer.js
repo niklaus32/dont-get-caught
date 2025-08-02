@@ -32,7 +32,7 @@ export function createTimer() {
       // For now, using a simple calculation - you can modify this
       score = Math.floor(Math.random() * 100); // Placeholder score calculation
 
-      // Show game over screen
+      // Show game over screen (timer ended scenario)
       showGameOverScreen(score);
     }
 
