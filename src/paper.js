@@ -1,3 +1,5 @@
+import { showGameOverScreen } from "./gameoverScreen.js";
+
 export function createPaper() {
     loadBitmapFont("unscii", "public/examples/fonts/unscii_8x8.png", 8, 8);
 
@@ -18,16 +20,31 @@ export function createPaper() {
     
     // Test questions
     const questions = [
-        "1. The capital of France is ________",
-        "2. 2 + 2 = ________",
-        "3. The largest ocean is ________",
-        "4. The moon landing was in ________", 
-        "5. Chemical symbol for gold is ________",
-        "6. Shakespeare wrote ________",
-        "7. The speed of light is ________ m/s",
-        "8. DNA stands for ________",
-        "9. The smallest planet is ________",
-        "10. H2O is the formula for ________"
+        "1. A",
+        "2. B",
+        "3. C",
+        "4. D",
+        "5. E",
+        "6. F",
+        "7. G",
+        "8. H",
+        "9. I",
+        "10. J"
+    ];
+    
+    // Correct answers (accepting both letter and full answer)
+    const correctAnswers = [
+        "a",          
+        "b",          
+        "c",          
+        "d",          
+        "e",          
+        "f",          
+        "g",          
+        "h",          
+        "i",          
+        "j",
+        "k"          
     ];
     
     // Create the test paper positioned on the desk
@@ -257,12 +274,41 @@ export function createPaper() {
                 width: 500,
                 align: "center",
             }),
-            pos(width() / 2, startY + 600),
+            pos(width() / 2, startY + 550),
             anchor("center"),
             color(rgb(100, 100, 100)),
             "instructions",
         ]);
         paperTexts.push(instructions);
+        
+        // Hand-in button
+        const handInButton = add([
+            rect(120, 40),
+            pos(width() / 2, startY + 600),
+            anchor("center"),
+            color(rgb(100, 200, 100)),
+            outline(2, rgb(0, 100, 0)),
+            area(),
+            "handInButton",
+        ]);
+        paperTexts.push(handInButton);
+        
+        const handInText = add([
+            text("HAND IN", {
+                font: "unscii",
+                size: 12,
+            }),
+            pos(width() / 2, startY + 600),
+            anchor("center"),
+            color(rgb(0, 0, 0)),
+            "handInText",
+        ]);
+        paperTexts.push(handInText);
+        
+        // Hand-in button click handler
+        handInButton.onClick(() => {
+            handInExam();
+        });
     }
     
     function selectBlank(index) {
@@ -286,6 +332,39 @@ export function createPaper() {
         if (selectedBlank >= 0 && selectedBlank < answerTexts.length && answerTexts[selectedBlank]) {
             answerTexts[selectedBlank].text = answers[selectedBlank];
         }
+    }
+    
+    function calculateScore() {
+        let correctCount = 0;
+        
+        for (let i = 0; i < Math.min(answers.length, correctAnswers.length); i++) {
+            const userAnswer = answers[i].toLowerCase().trim();
+            const correctAnswer = correctAnswers[i].toLowerCase().trim();
+            
+            if (userAnswer === correctAnswer) {
+                correctCount++;
+            }
+        }
+        
+        const percentage = (correctCount / correctAnswers.length) * 100;
+        return {
+            correctCount: correctCount,
+            totalQuestions: correctAnswers.length,
+            percentage: percentage,
+            passed: percentage >= 80
+        };
+    }
+    
+    function handInExam() {
+        const score = calculateScore();
+        
+        // Close the test paper first
+        closeTestPaper();
+        
+        // Trigger game over with the calculated score
+        showGameOverScreen(score.percentage, score.passed, score.correctCount, score.totalQuestions);
+        
+        debug.log(`Exam handed in! Score: ${score.percentage}% (${score.correctCount}/${score.totalQuestions})`);
     }
     
     // Handle typing input
@@ -330,6 +409,8 @@ export function createPaper() {
         testPaper: testPaper,
         answers: answers,
         openTestPaper: openTestPaper,
-        closeTestPaper: closeTestPaper
+        closeTestPaper: closeTestPaper,
+        calculateScore: calculateScore,
+        handInExam: handInExam
     };
 }

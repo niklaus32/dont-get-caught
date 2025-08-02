@@ -17,9 +17,9 @@ export function createGameScene(k) {
     },
   ]);
   const pencilBox = createPencilBox();
-  const timer = createTimer();
-  const teacher = createTeacher();
   const paper = createPaper();
+  const timer = createTimer(paper);
+  const teacher = createTeacher();
 
 
 

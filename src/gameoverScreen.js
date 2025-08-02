@@ -1,4 +1,4 @@
-export function showGameOverScreen(score) {
+export function showGameOverScreen(score, passed, correctCount, totalQuestions) {
   // Load font
   loadBitmapFont("unscii", "public/examples/fonts/unscii_8x8.png", 8, 8);
 
@@ -17,8 +17,20 @@ export function showGameOverScreen(score) {
       font: "unscii",
       size: 20,
     }),
-    pos(width() / 2, height() / 2 - 60),
+    pos(width() / 2, height() / 2 - 80),
     color(rgb(255, 255, 255)),
+    layer("ui"),
+    anchor("center"),
+  ]);
+
+  // Detailed score breakdown
+  const detailText = add([
+    text(`Correct Answers: ${correctCount}/${totalQuestions}`, {
+      font: "unscii",
+      size: 14,
+    }),
+    pos(width() / 2, height() / 2 - 50),
+    color(rgb(200, 200, 200)),
     layer("ui"),
     anchor("center"),
   ]);
@@ -26,14 +38,14 @@ export function showGameOverScreen(score) {
   // Pass/Fail message
   const messageText = add([
     text(
-      score >= 80 ? "Congratulations! You passed the exam!" : "Exam failed!",
+      passed ? "Congratulations! You passed the exam!" : "Exam failed! You need 80% to pass.",
       {
         font: "unscii",
         size: 18,
       }
     ),
-    pos(width() / 2, height() / 2 - 20),
-    color(score >= 80 ? rgb(0, 255, 0) : rgb(255, 0, 0)),
+    pos(width() / 2, height() / 2 - 10),
+    color(passed ? rgb(0, 255, 0) : rgb(255, 0, 0)),
     layer("ui"),
     anchor("center"),
   ]);
