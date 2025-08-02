@@ -3,18 +3,15 @@ export function createNotes(pencilBox) {
     //Dragging secret notes
     let curDraggin = null;
     function drag() {
-        // The displacement between object pos and mouse pos
         let offset = vec2(0);
         return {
             id: "drag",
             require: ["pos", "area"],
             pick() {
-                // Set the current global dragged object to this
                 curDraggin = this;
                 offset = mousePos().sub(this.pos);
                 this.trigger("drag");
             },
-            // "update" is a lifecycle method gets called every frame the obj is in scene
             update() {
                 if (curDraggin === this) {
                     this.pos = mousePos().sub(offset);
@@ -43,28 +40,30 @@ export function createNotes(pencilBox) {
             }
         }
     });
-    // Drop whatever is dragged on mouse release
     onMouseRelease(() => {
         if (curDraggin) {
             curDraggin.trigger("dragEnd");
             curDraggin = null;
         }
     });
-    // Reset cursor to default at frame start for easier cursor management
     onUpdate(() => setCursor("default"));
 
     const secretNotes = [];
-    const NOTE_SCALE = 0.05;
+    const NOTE_SCALE = 0.1;
     const NOTE_MARGIN = 10;
     for (let i = 0; i < 10; i++) {
-        // Calculate local position inside parent bounds
+        // Calculate local position inside parent bounds (world coordinates, anchor center)
         const pw = pencilBox.width * pencilBox.scale.x;
         const ph = pencilBox.height * pencilBox.scale.y;
         const nw = 64 * NOTE_SCALE;
         const nh = 64 * NOTE_SCALE;
-        const x = rand(-pw/2 + nw/2 + NOTE_MARGIN, pw/2 - nw/2 - NOTE_MARGIN);
-        const y = rand(-ph/2 + nh/2 + NOTE_MARGIN, ph/2 - nh/2 - NOTE_MARGIN);
-        const note = pencilBox.add([
+        const minX = pencilBox.pos.x - pw / 2 + nw / 2 + NOTE_MARGIN;
+        const maxX = pencilBox.pos.x + pw / 2 - nw / 2 - NOTE_MARGIN;
+        const minY = pencilBox.pos.y - ph / 2 + nh / 2 + NOTE_MARGIN;
+        const maxY = pencilBox.pos.y + ph / 2 - nh / 2 - NOTE_MARGIN;
+        const x = rand(minX, maxX);
+        const y = rand(minY, maxY);
+        const note = add([
             sprite("stickyNote"),
             pos(x, y),
             area({ cursor: "pointer" }),
@@ -91,20 +90,22 @@ export function createNotes(pencilBox) {
     }
     });
     function stayInside(parent) {
-    return {
-        id: "stayInside",
-        require: ["pos", "area"],
-        update() {
-            if (!parent) return;
-            // Calculate parent's boundaries
-            const minX = parent.pos.x;
-            const minY = parent.pos.y;
-            const maxX = parent.pos.x + parent.width - this.width;
-            const maxY = parent.pos.y + parent.height - this.height;
-            // Clamp child position to stay inside parent
+        return {
+            id: "stayInside",
+            require: ["pos", "area"],
+            update() {
+                if (!parent) return;
+
+            // Clamp world position to parent bounds
+            const pw = parent.width * parent.scale.x;
+            const ph = parent.height * parent.scale.y;
+            const minX = parent.pos.x - pw / 2 + this.width / 2;
+            const maxX = parent.pos.x + pw / 2 - this.width / 2;
+            const minY = parent.pos.y - ph / 2 + this.height / 2;
+            const maxY = parent.pos.y + ph / 2 - this.height / 2;
             this.pos.x = clamp(this.pos.x, minX, maxX);
             this.pos.y = clamp(this.pos.y, minY, maxY);
-        }
+            }
         };
     }
 
