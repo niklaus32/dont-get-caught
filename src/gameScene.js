@@ -1,9 +1,11 @@
 import { createPencilBox } from "./pencilbox.js";
 import { createTimer } from "./timer.js";
+import { createTeacher } from "./teacher.js";
 
 export function createGameScene(k) {
   const pencilBox = createPencilBox();
   const timer = createTimer();
+  const teacher = createTeacher(k);
 
 
   // This rect object will be replace with user image
@@ -19,18 +21,6 @@ export function createGameScene(k) {
     },
   ]);
 
-  // this rect object will be replace with teacher image
-  k.add([
-    k.pos(k.width() / 2 - 300, 0),
-    k.rect(600, 300),
-    k.color(k.RED),
-    "shape",
-    {
-      getShape() {
-        return new k.Rect(this.pos, this.width, this.height);
-      },
-    },
-  ]);
 
   // add iphone
   k.loadSprite("phone", "../public/sprites/iphone.png");
