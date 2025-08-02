@@ -71,6 +71,7 @@ export function createNotes(pencilBox) {
             anchor("center"),
             stayInside(pencilBox),
             drag(),
+            layer("stickyNote"),
             "stickyNote",
         ]);
         note.opacity = 0;
