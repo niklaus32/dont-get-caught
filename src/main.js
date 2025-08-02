@@ -1,11 +1,73 @@
 import kaplay from "kaplay";
-// import "kaplay/global"; // uncomment if you want to use without the k. prefix
+kaplay({
+  background: "#5ba675",
+});
 
-const k = kaplay();
+debug.log("Hello from game!");
 
-k.loadRoot("./"); // A good idea for Itch.io publishing later
-k.loadSprite("bean", "sprites/bean.png");
+// This rect object will be replace with user image
+add([
+  pos(width() / 2 - 300, height() - 400),
+  rect(600, 400), //length is 600, width is 200
+  color(BLUE),
+  "shape",
+  {
+    getShape() {
+      return new Rect(this.pos, this.widht, this.height);
+    },
+  },
+]);
 
-k.add([k.pos(120, 80), k.sprite("bean")]);
+// this rect object will be replace with teacher image
+add([
+  pos(width() / 2 - 300, 0),
+  rect(600, 300),
+  color(RED),
+  "shape",
+  {
+    getShape() {
+      return new Rect(this.pos, this.widht, this.height);
+    },
+  },
+]);
 
-k.onClick(() => k.addKaboom(k.mousePos()));
+// add user text response
+
+const crew = add([
+  text(""),
+  textInput(true), // <- 20 chars at max
+  pos(width() / 2 - 300, height() - 400),
+  anchor("center"),
+]);
+
+crew.onUpdate(() => {
+  if (crew.text !== "") {
+    showPhone();
+  }
+});
+
+let phoneBox;
+const showPhone = () => {
+  if (phoneBox) {
+    destroy(phoneBox);
+  }
+
+  const padding = 20;
+  const charWidth = 12; // rough estimate for monospaced font
+  const charHeight = 24;
+
+  const textLength = crew.text.length;
+
+  const boxWidth = textLength * charWidth + padding * 2;
+  const boxHeight = charHeight + padding * 2;
+
+  phoneBox = add([
+    pos(width() / 2 - 300, height() - 400),
+    rect(boxWidth, boxHeight),
+    color(YELLOW),
+    anchor("center"),
+    z(0), // behind text
+  ]);
+
+  crew.z = 1;
+};
