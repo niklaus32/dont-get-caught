@@ -1,6 +1,10 @@
+import { showGameOverScreen } from "./gameoverScreen.js";
+
 export function createTimer() {
   let timeLeft = 60;
   let timerText;
+  let gameEnded = false;
+  let score = 0;
 
   loadBitmapFont("unscii", "public/examples/fonts/unscii_8x8.png", 8, 8);
 
@@ -16,11 +20,20 @@ export function createTimer() {
   ]);
 
   onUpdate(() => {
+    if (gameEnded) return;
+
     timeLeft -= dt();
 
     if (timeLeft <= 0) {
       timeLeft = 0;
-      // gameover logic
+      gameEnded = true;
+
+      // Calculate score based on time remaining and other factors
+      // For now, using a simple calculation - you can modify this
+      score = Math.floor(Math.random() * 100); // Placeholder score calculation
+
+      // Show game over screen
+      showGameOverScreen(score);
     }
 
     timerText.text = `Countdown: ${Math.ceil(timeLeft)}s`;
