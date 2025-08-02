@@ -1,9 +1,11 @@
 import { createPencilBox } from "./pencilbox.js";
 import { createTimer } from "./timer.js";
+import { createTeacher } from "./teacher.js";
 
 export function createGameScene(k) {
   const pencilBox = createPencilBox();
   const timer = createTimer();
+  const teacher = createTeacher(k);
 
 
   // This rect object will be replace with user image
