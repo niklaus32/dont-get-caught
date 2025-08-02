@@ -1,3 +1,10 @@
+// Two functions added in src/gameoverScreen.js:
+// showGameOverScreen(score)
+// Call when: Timer ends OR player completes all questions early
+// Parameter: score (number) - player's final score
+// showCheatingGameOverScreen()
+// Call when: Player is caught cheating
+
 // Game over scenario 1: Timer ended or exam completed early
 // Call this function when:
 // - Timer reaches 0 (time's up)
