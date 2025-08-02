@@ -87,6 +87,7 @@ const pencilBox = add([
   sprite("pencilBox"),
   pos(width()/2, height() / 2),
   scale(1),
+  anchor("center"),
   area(), // enables hover/click
   "pencilBox",
 ]);
@@ -110,7 +111,7 @@ pencilBox.onClick(() => {
     // Animate scale up with a tween
     tween(
       pencilBox.scale,
-      vec2(5),
+      vec2(10),
       0.5, // duration in seconds
       (val) => {
         pencilBox.scale = val;
@@ -144,16 +145,18 @@ pencilBox.onUpdate(() => {
     if (!pencilboxWriting) {
       pencilboxWriting = add([
         text("My secret notes!", { size: 32 }),
-        pos(pencilBox.pos.x + pencilBox.width / 4, pencilBox.pos.y + pencilBox.height / 2),
+        pos(0, 0), // will be updated below
+        anchor("center"),
         color(BLACK),
         z(10),
         "pencilboxWriting",
       ]);
-    } else {
-      // Update position if pencilBox moves or scales
+    }
+    // Always update position to center of pencilbox
+    if (pencilboxWriting) {
       pencilboxWriting.pos = vec2(
-        pencilBox.pos.x + pencilBox.width * pencilBox.scale.x / 4,
-        pencilBox.pos.y + pencilBox.height * pencilBox.scale.y / 2
+        pencilBox.pos.x,
+        pencilBox.pos.y
       );
     }
   } else {
