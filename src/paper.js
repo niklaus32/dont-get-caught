@@ -6,6 +6,7 @@ export function createPaper() {
     let answers = ["", "", "", "", "", "", "", "", "", ""]; // 10 blank answers
     let selectedBlank = -1;
     let paperTexts = [];
+    let answerTexts = []; // Track answer text objects separately
     let isEnlarged = false;
     
     // Create single test paper on the blue rect (desk/table)
@@ -130,6 +131,7 @@ export function createPaper() {
             }
         });
         paperTexts = [];
+        answerTexts = [];
         selectedBlank = -1;
         
         // Animate back to original position and size
@@ -180,6 +182,9 @@ export function createPaper() {
     function showTestContent() {
         const startY = height() / 2 - 300;
         const lineHeight = 50;
+        
+        // Clear answer texts array
+        answerTexts = [];
         
         // Add test header
         const header = add([
@@ -236,6 +241,7 @@ export function createPaper() {
                 "answerText",
             ]);
             paperTexts.push(answerText);
+            answerTexts[index] = answerText; // Store reference by index
             
             // Click handler for answer box
             answerBox.onClick(() => {
@@ -277,19 +283,9 @@ export function createPaper() {
     }
     
     function updateAnswerText() {
-        paperTexts.forEach(textObj => {
-            if (textObj.is && textObj.is("answerText")) {
-                const index = paperTexts.findIndex(obj => 
-                    obj.is && obj.is("answerBox") && obj.questionIndex === selectedBlank
-                );
-                if (index !== -1) {
-                    const answerIndex = Math.floor((index - 1) / 3); // Calculate which answer this belongs to
-                    if (answerIndex === selectedBlank) {
-                        textObj.text = answers[selectedBlank];
-                    }
-                }
-            }
-        });
+        if (selectedBlank >= 0 && selectedBlank < answerTexts.length && answerTexts[selectedBlank]) {
+            answerTexts[selectedBlank].text = answers[selectedBlank];
+        }
     }
     
     // Handle typing input
