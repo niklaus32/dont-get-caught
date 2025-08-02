@@ -1,7 +1,13 @@
 import kaplay from "kaplay";
-kaplay({
+
+
+const k = kaplay({
   background: "#5ba675",
+  font: "happy",
 });
+
+loadBitmapFont("happy", "/examples/fonts/happy_28x36.png", 28, 36);
+
 
 debug.log("Hello from game!");
 
@@ -139,8 +145,18 @@ phone_icon.onClick(() => {
 });
 
 import { createPencilBox } from "./pencilbox.js";
+createPencilBox();
+
 import { createTimer } from "./timer.js";
 import { showGameOverScreen } from "./gameoverScreen.js";
 
 createPencilBox();
 createTimer();
+
+import { createWelcomeScene } from "./welcomScene.js";
+scene("welcome", () => createWelcomeScene(k));
+function start() {
+  // Start the welcome scene
+  go("welcome");
+}
+start();
