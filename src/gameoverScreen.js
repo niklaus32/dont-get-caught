@@ -62,13 +62,7 @@ export function showGameOverScreen(score) {
 
   // Restart game on click
   restartButton.onClick(() => {
-    // Remove all game over screen elements
-    destroy(overlay);
-    destroy(scoreText);
-    destroy(messageText);
-    destroy(restartButton);
-
     // Restart the game by reloading the page
-    go("main");
+    location.reload();
   });
 }
