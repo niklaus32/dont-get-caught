@@ -3,11 +3,10 @@ import { createTimer } from "./timer.js";
 import { createTeacher } from "./teacher.js";
 
 export function createGameScene(k) {
+  setLayers(["teacher", "desk", "pencilBox", "iphone"], "desk");
   const pencilBox = createPencilBox();
   const timer = createTimer();
   const teacher = createTeacher(k);
-
-
   // This rect object will be replace with user image
   k.add([
     k.pos(k.width() / 2 - 300, k.height() - 400),
@@ -19,6 +18,7 @@ export function createGameScene(k) {
         return new k.Rect(this.pos, this.width, this.height);
       },
     },
+    layer("desk"),
   ]);
 
 
@@ -40,6 +40,7 @@ export function createGameScene(k) {
     k.pos(k.width() / 2, k.height() / 2),
     k.scale(0.1), // scale to 50%
     k.area(), // enables hover/click
+    layer("iphone"),
     "phone_icon",
   ]);
 

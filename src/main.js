@@ -5,7 +5,6 @@ const k = kaplay({
   font: "happy",
 });
 
-
 // Manage resources by scenes
 import { createWelcomeScene } from "./welcomScene.js";
 import { createGameScene } from "./gameScene.js";
