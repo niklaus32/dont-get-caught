@@ -5,6 +5,8 @@ export function createPencilBox(teacher = null) {
     loadSprite("pencilBox", "sprites/pencilcase.png");
     loadSound("zipperOpen", "sounds/zipperOpen.mp3");
     loadSound("zipperClose", "sounds/zipperClose.mp3");
+    loadSound("caught", "sounds/notice.mp3");
+    
   const pencilBoxSize = 0.6;
   const pencilBox = add([
     sprite("pencilBox"),
@@ -40,6 +42,7 @@ export function createPencilBox(teacher = null) {
     debug.log("Teacher sprite:", teacher ? teacher.sprite : "null");
     if (teacher && teacher.sprite === "teacher_front") {
       // Teacher is watching, cheating detected!
+      play("caught");
       debug.log("Cheating detected! Teacher is watching!");
       showCheatingGameOverScreen();
       return;
