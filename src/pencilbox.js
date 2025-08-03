@@ -36,13 +36,16 @@ export function createPencilBox(teacher = null) {
   pencilBox.onClick(() => {
     play("zipperOpen", { volume: 1,});
     // Check if teacher is watching (front face)
-    if (teacher && teacher.sprite === "teacher_frontface") {
+    debug.log("PencilBox clicked! Teacher:", teacher);
+    debug.log("Teacher sprite:", teacher ? teacher.sprite : "null");
+    if (teacher && teacher.sprite === "teacher_front") {
       // Teacher is watching, cheating detected!
+      debug.log("Cheating detected! Teacher is watching!");
       showCheatingGameOverScreen();
       return;
     }
     if (!pencilBox.isEnlarged) {
-        setCursor("default");
+      setCursor("default");
       tween(
         pencilBox.scale,
         vec2(2),

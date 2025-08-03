@@ -14,7 +14,7 @@ export function createTimer(paperModule) {
     }),
     pos(width() - 250, 20),
     color(rgb(255, 255, 255)),
-    layer("timer"),
+    layer("paper"),
     "timerText",
   ]);
 

@@ -14,13 +14,14 @@ export function createGameScene(k) {
       "stickyNote",
       "iphone",
       "paper",
-      "timer",
+      "text",
+      "ui",
     ],
     "background"
   );
-  const pencilBox = createPencilBox();
-  const timer = createTimer();
   const teacher = createTeacher(k);
+  const pencilBox = createPencilBox(teacher);
+  const timer = createTimer();
   const paper = createPaper();
 
   // This rect object will be replace with user image
@@ -55,6 +56,9 @@ export function createGameScene(k) {
     layer("iphone"),
     "phone_icon",
   ]);
+
+  // Disable the phone icon for now
+  k.destroy(phone_icon);
 
   function inputTextUpdate(w, h) {
     // destroy old
@@ -121,7 +125,7 @@ export function createGameScene(k) {
   phone_icon.onClick(() => {
     // Check if teacher is watching (front face)
     debug.log("Teacher sprite:", teacher.sprite);
-    if (teacher.sprite === "teacher_frontface") {
+    if (teacher.sprite === "teacher_front") {
       // Teacher is watching, cheating detected!
       debug.log("Cheating detected! Teacher is watching!");
       showCheatingGameOverScreen();
