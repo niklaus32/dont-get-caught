@@ -19,14 +19,15 @@ export function createPencilBox(teacher = null) {
     if (!pencilBox.isEnlarged) {
       pencilBox.scale = vec2(pencilBoxSize + 0.3);
       pencilBox.color = rgb(255, 220, 220);
+      setCursor("pointer");
     }
   });
   pencilBox.onHoverEnd(() => {
     if (!pencilBox.isEnlarged) {
       pencilBox.scale = vec2(pencilBoxSize);
       pencilBox.color = rgb(255, 255, 255);
-      pencilBox.showWriting = false;
       pencilBox.isEnlarged = false;
+      setCursor("default");
     }
   });
 
@@ -38,8 +39,8 @@ export function createPencilBox(teacher = null) {
       showCheatingGameOverScreen();
       return;
     }
-
     if (!pencilBox.isEnlarged) {
+        setCursor("default");
       tween(
         pencilBox.scale,
         vec2(2),
@@ -49,7 +50,6 @@ export function createPencilBox(teacher = null) {
         },
         easings.easeOutBack
       );
-
       tween(
         pencilBox.pos,
         center(),
@@ -60,13 +60,13 @@ export function createPencilBox(teacher = null) {
         easings.easeOutBack
       ).then(() => {
         pencilBox.isEnlarged = true;
-        pencilBox.showWriting = true;
         pencilBox.tag("openedPencilBox");
       });
     }
   });
   //close pencilbox
   onKeyPress("escape", () => {
+    setCursor("default");
     if (pencilBox.isEnlarged) {
       // Tween both scale and position back to original
       tween(
@@ -89,7 +89,6 @@ export function createPencilBox(teacher = null) {
         easings.easeInOutSine
       ).then(() => {
         pencilBox.isEnlarged = false;
-        pencilBox.showWriting = false;
       });
     }
   });
