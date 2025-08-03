@@ -2,8 +2,9 @@ import { createNotes } from "./secretNotes.js";
 import { showCheatingGameOverScreen } from "./gameoverScreen.js";
 
 export function createPencilBox(teacher = null) {
-  loadSprite("pencilBox", "sprites/pencilcase.png");
-
+    loadSprite("pencilBox", "sprites/pencilcase.png");
+    loadSound("zipperOpen", "sounds/zipperOpen.mp3");
+    loadSound("zipperClose", "sounds/zipperClose.mp3");
   const pencilBoxSize = 0.6;
   const pencilBox = add([
     sprite("pencilBox"),
@@ -33,6 +34,7 @@ export function createPencilBox(teacher = null) {
 
   // Enlarge and show writing on click
   pencilBox.onClick(() => {
+    play("zipperOpen", { volume: 1,});
     // Check if teacher is watching (front face)
     debug.log("PencilBox clicked! Teacher:", teacher);
     debug.log("Teacher sprite:", teacher ? teacher.sprite : "null");
@@ -71,6 +73,7 @@ export function createPencilBox(teacher = null) {
   onKeyPress("escape", () => {
     setCursor("default");
     if (pencilBox.isEnlarged) {
+        play("zipperClose", { volum: 1});
       // Tween both scale and position back to original
       tween(
         pencilBox.scale,

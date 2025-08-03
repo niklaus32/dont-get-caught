@@ -8,8 +8,8 @@ export function showGameOverScreen(scoreData) {
   loadBitmapFont("unscii", "public/examples/fonts/unscii_8x8.png", 8, 8);
 
   // Load and play sound effect
-  loadSound("win_sound", "public/examples/sounds/win.mp3");
-  loadSound("lose_sound", "public/examples/sounds/lose.mp3");
+  loadSound("win_sound", "sounds/win.mp3");
+  loadSound("lose_sound", "sounds/lose.mp3");
 
   // Play appropriate sound based on score
   if (score >= 80) {
