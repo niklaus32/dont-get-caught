@@ -49,8 +49,8 @@ export function createNotes(pencilBox) {
     });
 
     const secretNotes = [];
-    const NOTE_SCALE = 0.15;  // Slightly bigger notes
-    const NOTE_MARGIN = 150;   // More margin for better spacing
+    const NOTE_SCALE = 0.2;   // Bigger notes to accommodate large text
+    const NOTE_MARGIN = 30;   // Even smaller margin for maximum spread
     
     // Question-answer pairs for the sticky notes
     const questionAnswerPairs = [
@@ -67,24 +67,24 @@ export function createNotes(pencilBox) {
     ];
     
     for (let i = 0; i < 10; i++) {
-        // Create a more scattered grid pattern instead of random placement
+        // Use the full pencil box area for better spreading
         const pw = pencilBox.width * pencilBox.scale.x;
         const ph = pencilBox.height * pencilBox.scale.y;
-        const nw = 64 * NOTE_SCALE;
-        const nh = 64 * NOTE_SCALE;
         
-        // Create a scattered grid (2 columns, 5 rows)
-        const col = i % 2;
-        const row = Math.floor(i / 2);
-        const gridSpacingX = (pw - NOTE_MARGIN * 2) / 2;
-        const gridSpacingY = (ph - NOTE_MARGIN * 2) / 5;
+        // Create a wider grid (3 columns, 4 rows with some in 3rd row)
+        const col = i % 3;
+        const row = Math.floor(i / 3);
         
-        // Base position with some random offset for natural scatter
+        // Calculate available space for each grid cell with more spacing
+        const gridSpacingX = (pw - NOTE_MARGIN * 2) / 2.5;  // Wider spacing
+        const gridSpacingY = (ph - NOTE_MARGIN * 2) / 3.5;  // Taller spacing
+        
+        // Base position for this grid cell
         const baseX = pencilBox.pos.x - pw / 2 + NOTE_MARGIN + col * gridSpacingX + gridSpacingX / 2;
         const baseY = pencilBox.pos.y - ph / 2 + NOTE_MARGIN + row * gridSpacingY + gridSpacingY / 2;
         
-        // Add some random scatter within the grid cell
-        const scatterRange = 30;
+        // Add much larger random scatter for maximum distribution
+        const scatterRange = 100;
         const x = baseX + rand(-scatterRange, scatterRange);
         const y = baseY + rand(-scatterRange, scatterRange);
         
@@ -131,6 +131,10 @@ export function createNotes(pencilBox) {
         note.onDragUpdate(() => {
             setCursor("move");
         });
+        
+        note.onDragEnd(() => {
+            setCursor("default");
+        });
     }
     onUpdate("openedPencilBox", () => {
     for (const note of secretNotes) {
@@ -148,10 +152,15 @@ export function createNotes(pencilBox) {
             // Clamp world position to parent bounds
             const pw = parent.width * parent.scale.x;
             const ph = parent.height * parent.scale.y;
-            const minX = parent.pos.x - pw / 2 + this.width / 2;
-            const maxX = parent.pos.x + pw / 2 - this.width / 2;
-            const minY = parent.pos.y - ph / 2 + this.height / 2;
-            const maxY = parent.pos.y + ph / 2 - this.height / 2;
+            
+            // Use the scaled dimensions of the note
+            const noteWidth = this.width * this.scale.x;
+            const noteHeight = this.height * this.scale.y;
+            
+            const minX = parent.pos.x - pw / 2 + noteWidth / 2;
+            const maxX = parent.pos.x + pw / 2 - noteWidth / 2;
+            const minY = parent.pos.y - ph / 2 + noteHeight / 2;
+            const maxY = parent.pos.y + ph / 2 - noteHeight / 2;
             this.pos.x = clamp(this.pos.x, minX, maxX);
             this.pos.y = clamp(this.pos.y, minY, maxY);
             }
