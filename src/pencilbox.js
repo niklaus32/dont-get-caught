@@ -1,6 +1,7 @@
 import { createNotes } from "./secretNotes.js";
+import { showCheatingGameOverScreen } from "./gameoverScreen.js";
 
-export function createPencilBox() {
+export function createPencilBox(teacher = null) {
   loadSprite("pencilBox", "sprites/pencilcase.png");
 
   const pencilBoxSize = 0.6;
@@ -31,11 +32,14 @@ export function createPencilBox() {
 
   // Enlarge and show writing on click
   pencilBox.onClick(() => {
+    // Check if teacher is watching (front face)
+    if (teacher && teacher.sprite === "teacher_frontface") {
+      // Teacher is watching, cheating detected!
+      showCheatingGameOverScreen();
+      return;
+    }
+
     if (!pencilBox.isEnlarged) {
-      // Store original position for restoring later
-      pencilBox.originalPos = pencilBox.pos.clone();
-      
-      // Tween both scale and position simultaneously
       tween(
         pencilBox.scale,
         vec2(2),
@@ -45,7 +49,7 @@ export function createPencilBox() {
         },
         easings.easeOutBack
       );
-      
+
       tween(
         pencilBox.pos,
         center(),
@@ -74,7 +78,7 @@ export function createPencilBox() {
         },
         easings.easeInOutSine
       );
-      
+
       tween(
         pencilBox.pos,
         pencilBox.originalPos || vec2(240, 500),

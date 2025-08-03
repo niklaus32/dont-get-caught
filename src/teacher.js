@@ -35,28 +35,31 @@ export function createTeacher() {
   ]);
 
   const STATES = {
-      FRONT: "front",
-      SIDE: "side",
-      BACK: "back"
+    FRONT: "front",
+    SIDE: "side",
+    BACK: "back",
   };
 
   let currentState = STATES.BACK;
 
   function setTeacherState(state) {
-      currentState = state;
-      if (state === STATES.FRONT) teacher.use(sprite(teacherFaces.frontface.sprite));
-      else if (state === STATES.SIDE) teacher.use(sprite(teacherFaces.sideface.sprite));
-      else if (state === STATES.BACK) teacher.use(sprite(teacherFaces.backface.sprite));
-      if (state === STATES.FRONT) {
-          onTeacherFront();
-      }
+    currentState = state;
+    if (state === STATES.FRONT)
+      teacher.use(sprite(teacherFaces.frontface.sprite));
+    else if (state === STATES.SIDE)
+      teacher.use(sprite(teacherFaces.sideface.sprite));
+    else if (state === STATES.BACK)
+      teacher.use(sprite(teacherFaces.backface.sprite));
+    if (state === STATES.FRONT) {
+      onTeacherFront();
+    }
   }
 
   // Placeholder function (you can implement later)
   function onTeacherFront() {
-      // TODO: Add code to handle game logic when teacher is facing front
-      // e.g., detect player movement -> "caught"
-      debug.log("Teacher is watching!");
+    // TODO: Add code to handle game logic when teacher is facing front
+    // e.g., detect player movement -> "caught"
+    debug.log("Teacher is watching!");
   }
   // Difficulty level will determine the teacher's face change
   // The hard, the teacher will change face more often, more fake turns, shorter time to stay backwords
@@ -73,35 +76,34 @@ export function createTeacher() {
   function generateFaceTime(difficultyLevel) {
     switch (difficultyLevel) {
       case 1:
-        return rand(8, 10) 
+        return rand(8, 10);
       case 2:
-        return rand(6,8)
+        return rand(6, 8);
       case 3:
-        return rand(4,6)
+        return rand(4, 6);
       default:
-        return 5; 
+        return 5;
     }
   }
 
   // Randomly switch teacher state
   function scheduleNextState() {
-      let nextState;
-      if (currentState === STATES.FRONT) {
-          nextState = STATES.SIDE;
-          debug.log("Teacher front");
-      }
-      else if (currentState === STATES.BACK) {
-          nextState = STATES.SIDE;
-          debug.log("Teacher back");
-      }
-      else if (currentState === STATES.SIDE) {
-          nextState = Math.random() < 0.5 ? STATES.FRONT : STATES.BACK;
-          debug.log("Teacher side");
-      }
-      setTeacherState(nextState);
-      let faceTime = generateFaceTime(difficultyLevel);
-      debug.log(faceTime);
-      wait(rand(1, faceTime), scheduleNextState);
+    let nextState;
+    if (currentState === STATES.FRONT) {
+      nextState = STATES.SIDE;
+      debug.log("Teacher front");
+    } else if (currentState === STATES.BACK) {
+      nextState = STATES.SIDE;
+      debug.log("Teacher back");
+    } else if (currentState === STATES.SIDE) {
+      nextState = Math.random() < 0.5 ? STATES.FRONT : STATES.BACK;
+      debug.log("Teacher side");
+    }
+    setTeacherState(nextState);
+    let faceTime = generateFaceTime(difficultyLevel);
+    debug.log(faceTime);
+    wait(rand(1, faceTime), scheduleNextState);
   }
   scheduleNextState();
+  return teacher;
 }
