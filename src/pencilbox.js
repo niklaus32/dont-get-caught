@@ -1,6 +1,7 @@
 import { createNotes } from "./secretNotes.js";
+import { showCheatingGameOverScreen } from "./gameoverScreen.js";
 
-export function createPencilBox() {
+export function createPencilBox(teacher = null) {
   loadSprite("pencilBox", "sprites/pencilcase.png");
 
   const pencilBoxSize = 0.6;
@@ -18,24 +19,28 @@ export function createPencilBox() {
     if (!pencilBox.isEnlarged) {
       pencilBox.scale = vec2(pencilBoxSize + 0.3);
       pencilBox.color = rgb(255, 220, 220);
+      setCursor("pointer");
     }
   });
   pencilBox.onHoverEnd(() => {
     if (!pencilBox.isEnlarged) {
       pencilBox.scale = vec2(pencilBoxSize);
       pencilBox.color = rgb(255, 255, 255);
-      pencilBox.showWriting = false;
       pencilBox.isEnlarged = false;
+      setCursor("default");
     }
   });
 
   // Enlarge and show writing on click
   pencilBox.onClick(() => {
+    // Check if teacher is watching (front face)
+    if (teacher && teacher.sprite === "teacher_frontface") {
+      // Teacher is watching, cheating detected!
+      showCheatingGameOverScreen();
+      return;
+    }
     if (!pencilBox.isEnlarged) {
-      // Store original position for restoring later
-      pencilBox.originalPos = pencilBox.pos.clone();
-      
-      // Tween both scale and position simultaneously
+        setCursor("default");
       tween(
         pencilBox.scale,
         vec2(2),
@@ -45,7 +50,6 @@ export function createPencilBox() {
         },
         easings.easeOutBack
       );
-      
       tween(
         pencilBox.pos,
         center(),
@@ -56,13 +60,13 @@ export function createPencilBox() {
         easings.easeOutBack
       ).then(() => {
         pencilBox.isEnlarged = true;
-        pencilBox.showWriting = true;
         pencilBox.tag("openedPencilBox");
       });
     }
   });
   //close pencilbox
   onKeyPress("escape", () => {
+    setCursor("default");
     if (pencilBox.isEnlarged) {
       // Tween both scale and position back to original
       tween(
@@ -74,7 +78,7 @@ export function createPencilBox() {
         },
         easings.easeInOutSine
       );
-      
+
       tween(
         pencilBox.pos,
         pencilBox.originalPos || vec2(240, 500),
@@ -85,7 +89,6 @@ export function createPencilBox() {
         easings.easeInOutSine
       ).then(() => {
         pencilBox.isEnlarged = false;
-        pencilBox.showWriting = false;
       });
     }
   });

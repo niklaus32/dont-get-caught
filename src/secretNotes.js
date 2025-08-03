@@ -47,7 +47,6 @@ export function createNotes(pencilBox) {
             curDraggin = null;
         }
     });
-    onUpdate(() => setCursor("default"));
 
     const secretNotes = [];
     const NOTE_SCALE = 0.1;

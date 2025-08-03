@@ -31,7 +31,12 @@ export function createTimer(paperModule) {
       let finalScore;
       if (paperModule && paperModule.calculateScore) {
         finalScore = paperModule.calculateScore();
-        showGameOverScreen(finalScore.percentage, finalScore.passed, finalScore.correctCount, finalScore.totalQuestions);
+        showGameOverScreen(
+          finalScore.percentage,
+          finalScore.passed,
+          finalScore.correctCount,
+          finalScore.totalQuestions
+        );
       } else {
         // Fallback to random score if paper module not available
         const randomScore = Math.floor(Math.random() * 100);
@@ -55,6 +60,6 @@ export function createTimer(paperModule) {
         gameEnded = true;
         timeLeft = 0;
       }
-    }
+    },
   };
 }
