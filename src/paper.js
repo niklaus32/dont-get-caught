@@ -20,16 +20,16 @@ export function createPaper() {
     
     // Test questions
     const questions = [
-        "1. A",
-        "2. B",
-        "3. C",
-        "4. D",
-        "5. E",
-        "6. F",
-        "7. G",
-        "8. H",
-        "9. I",
-        "10. J"
+        "1. @@@",         // 3 at symbols
+        "2. ##$",         // 2 hashes, 1 dollar
+        "3. OO*",         // 2 letter O, 1 asterisk
+        "4. @#O*",        // 1 at, 1 hash, 1 O, 1 asterisk
+        "5. **@",         // 2 asterisks, 1 at
+        "6. O#*",         // 1 O, 1 hash, 1 asterisk
+        "7. @O*",         // 1 at, 1 O, 1 asterisk
+        "8. #*#",         // 2 hashes, 1 asterisk
+        "9. O@*",         // 1 O, 1 at, 1 asterisk
+        "10. @*#",        // 1 at, 1 asterisk, 1 hash
     ];
     
     // Correct answers (accepting both letter and full answer)
@@ -47,22 +47,23 @@ export function createPaper() {
     ];
     
     // Create the test paper positioned on the desk
-    const paperX = deskX + deskWidth / 2;
+    const paperX = deskX + deskWidth / 2 + 200; // Offset to the right of the desk
     const paperY = deskY + deskHeight / 2;
     
+    loadSprite("testPaper", "public/sprites/exampaper.png");
+
     testPaper = add([
-        rect(200, 300), // White paper rectangle
-        pos(paperX, paperY),
+        sprite("testPaper"),
+        pos(paperX, paperY ),
         anchor("center"),
-        color(rgb(255, 255, 255)),
-        outline(2, rgb(0, 0, 0)), // Black border
+        scale(paperSize), // Use the paperSize variable for consistent scaling
         area(),
         layer("paper"),
         "testPaper",
         {
             isEnlarged: false,
             originalPos: vec2(paperX, paperY),
-            originalScale: vec2(1),
+            originalScale: vec2(paperSize),
         }
     ]);
     
@@ -70,25 +71,25 @@ export function createPaper() {
     const paperTitle = add([
         text("TEST PAPER", {
             font: "unscii",
-            size: 8,
+            size: 12,
         }),
-        pos(paperX, paperY - 20),
+        pos(paperX - 30, paperY - 40), // Position relative to paper, moved further up
         anchor("center"),
         color(rgb(0, 0, 0)),
-        layer("paper"),
+        layer("paper"), // Same layer as the paper
         "paperTitle",
     ]);
     
     // Hover effects
     testPaper.onHover(() => {
         if (!isEnlarged) {
-            testPaper.color = rgb(240, 240, 240);
+            testPaper.scale = vec2(paperSize + 0.05); // Slightly enlarge on hover
         }
     });
     
     testPaper.onHoverEnd(() => {
         if (!isEnlarged) {
-            testPaper.color = rgb(255, 255, 255);
+            testPaper.scale = vec2(paperSize); // Return to original size
         }
     });
     
@@ -110,7 +111,7 @@ export function createPaper() {
         // Animate to center and enlarge
         tween(
             testPaper.pos,
-            vec2(width() / 2, height() / 2),
+            vec2(paperX, paperY),
             0.5,
             (val) => {
                 testPaper.pos = val;
@@ -119,21 +120,11 @@ export function createPaper() {
         );
         
         tween(
-            testPaper.width,
-            600,
+            testPaper.scale,
+            vec2(2.0), // Scale up to 2x size
             0.5,
             (val) => {
-                testPaper.width = val;
-            },
-            easings.easeOutBack
-        );
-        
-        tween(
-            testPaper.height,
-            700,
-            0.5,
-            (val) => {
-                testPaper.height = val;
+                testPaper.scale = val;
             },
             easings.easeOutBack
         ).then(() => {
@@ -164,21 +155,11 @@ export function createPaper() {
         );
         
         tween(
-            testPaper.width,
-            200,
+            testPaper.scale,
+            testPaper.originalScale,
             0.3,
             (val) => {
-                testPaper.width = val;
-            },
-            easings.easeInOutSine
-        );
-        
-        tween(
-            testPaper.height,
-            300,
-            0.3,
-            (val) => {
-                testPaper.height = val;
+                testPaper.scale = val;
             },
             easings.easeInOutSine
         ).then(() => {
@@ -187,11 +168,12 @@ export function createPaper() {
             add([
                 text("TEST PAPER", {
                     font: "unscii",
-                    size: 8,
+                    size: 12,
                 }),
-                pos(testPaper.pos.x, testPaper.pos.y - 20),
+                pos(testPaper.pos.x - 30, testPaper.pos.y - 40),
                 anchor("center"),
                 color(rgb(0, 0, 0)),
+                layer("paper"),
                 "paperTitle",
             ]);
         });
@@ -225,7 +207,7 @@ export function createPaper() {
             const questionText = add([
                 text(question, {
                     font: "unscii",
-                    size: 10,
+                    size: 18,
                     width: 500,
                 }),
                 pos(width() / 2 - 250, questionY),
@@ -274,7 +256,7 @@ export function createPaper() {
         const instructions = add([
             text("Click on answer boxes to select, then type your answers. Press ESC to close.", {
                 font: "unscii",
-                size: 8,
+                size: 12,
                 width: 500,
                 align: "center",
             }),

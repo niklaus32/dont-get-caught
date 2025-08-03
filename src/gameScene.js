@@ -14,6 +14,7 @@ export function createGameScene(k) {
       "stickyNote",
       "iphone",
       "paper",
+      "text",
       "ui",
     ],
     "background"
@@ -55,6 +56,9 @@ export function createGameScene(k) {
     layer("iphone"),
     "phone_icon",
   ]);
+
+  // Disable the phone icon for now
+  k.destroy(phone_icon);
 
   function inputTextUpdate(w, h) {
     // destroy old
