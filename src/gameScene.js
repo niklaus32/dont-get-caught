@@ -1,12 +1,15 @@
 import { createPencilBox } from "./pencilbox.js";
 import { createTimer } from "./timer.js";
 import { createTeacher } from "./teacher.js";
+import { createPaper } from "./paper.js";
 
 export function createGameScene(k) {
-  setLayers(["background", "teacher", "desk", "pencilBox", "stickyNote", "iphone"], "background");
+  setLayers(["background", "teacher", "desk", "pencilBox", "stickyNote", "iphone", "paper"], "background");
   const pencilBox = createPencilBox();
   const timer = createTimer();
   const teacher = createTeacher(k);
+  const paper = createPaper();
+
   // This rect object will be replace with user image
   loadSprite("background", "public/sprites/bg.png");
   const bg = add([
