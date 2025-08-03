@@ -47,27 +47,28 @@ export function createPaper() {
     ];
     
     // Create the test paper positioned on the desk
-    const paperX = deskX + deskWidth / 2;
+    const paperX = deskX + deskWidth / 2 + 200; // Offset to the right of the desk
     const paperY = deskY + deskHeight / 2;
     
+    loadSprite("testPaper", "public/sprites/exampaper.png");
+
     testPaper = add([
-        rect(200, 300), // White paper rectangle
-        pos(paperX, paperY),
+        sprite("testPaper"),
+        pos(paperX, paperY ),
         anchor("center"),
-        color(rgb(255, 255, 255)),
-        outline(2, rgb(0, 0, 0)), // Black border
+        scale(paperSize), // Use the paperSize variable for consistent scaling
         area(),
         layer("paper"),
         "testPaper",
         {
             isEnlarged: false,
             originalPos: vec2(paperX, paperY),
-            originalScale: vec2(1),
+            originalScale: vec2(paperSize),
         }
     ]);
     
     // Add paper title when not enlarged
-    const paperTitle = add([
+    const paperTitle = testPaper.add([
         text("TEST PAPER", {
             font: "unscii",
             size: 8,
@@ -75,20 +76,20 @@ export function createPaper() {
         pos(paperX, paperY - 20),
         anchor("center"),
         color(rgb(0, 0, 0)),
-        layer("paper"),
+        layer("text"),
         "paperTitle",
     ]);
     
     // Hover effects
     testPaper.onHover(() => {
         if (!isEnlarged) {
-            testPaper.color = rgb(240, 240, 240);
+            testPaper.scale = vec2(paperSize + 0.05); // Slightly enlarge on hover
         }
     });
     
     testPaper.onHoverEnd(() => {
         if (!isEnlarged) {
-            testPaper.color = rgb(255, 255, 255);
+            testPaper.scale = vec2(paperSize); // Return to original size
         }
     });
     
@@ -110,7 +111,7 @@ export function createPaper() {
         // Animate to center and enlarge
         tween(
             testPaper.pos,
-            vec2(width() / 2, height() / 2),
+            vec2(paperX, paperY),
             0.5,
             (val) => {
                 testPaper.pos = val;
@@ -119,21 +120,11 @@ export function createPaper() {
         );
         
         tween(
-            testPaper.width,
-            600,
+            testPaper.scale,
+            vec2(2.0), // Scale up to 2x size
             0.5,
             (val) => {
-                testPaper.width = val;
-            },
-            easings.easeOutBack
-        );
-        
-        tween(
-            testPaper.height,
-            700,
-            0.5,
-            (val) => {
-                testPaper.height = val;
+                testPaper.scale = val;
             },
             easings.easeOutBack
         ).then(() => {
@@ -164,21 +155,11 @@ export function createPaper() {
         );
         
         tween(
-            testPaper.width,
-            200,
+            testPaper.scale,
+            testPaper.originalScale,
             0.3,
             (val) => {
-                testPaper.width = val;
-            },
-            easings.easeInOutSine
-        );
-        
-        tween(
-            testPaper.height,
-            300,
-            0.3,
-            (val) => {
-                testPaper.height = val;
+                testPaper.scale = val;
             },
             easings.easeInOutSine
         ).then(() => {
