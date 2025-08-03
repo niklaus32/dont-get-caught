@@ -13,7 +13,7 @@ export function createTimer(paperModule) {
       size: 15,
     }),
     pos(width() - 250, 20),
-    color(rgb(255, 255, 255)),
+    color(rgb(0, 0, 0)),
     layer("timer"),
     "timerText",
   ]);
@@ -49,7 +49,7 @@ export function createTimer(paperModule) {
     if (timeLeft <= 10) {
       timerText.color = rgb(255, 0, 0);
     } else {
-      timerText.color = rgb(255, 255, 255);
+      timerText.color = rgb(0, 0, 0);
     }
   });
 
