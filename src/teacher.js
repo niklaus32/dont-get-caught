@@ -1,9 +1,9 @@
 export function createTeacher() {
   // Loads all sprites
   // Representing the teacher
-  loadSprite("teacher_frontface", "/sprites/frontface.png");
-  loadSprite("teacher_sideface", "/sprites/sideface.png");
-  loadSprite("teacher_backface", "/sprites/backface.png");
+  loadSprite("teacher_frontface", "/sprites/teacher_front.png");
+  loadSprite("teacher_sideface", "/sprites/teacher_side.png");
+  loadSprite("teacher_backface", "/sprites/teacher_back.png");
   loadSprite("bean", "/examples/sprites/bean.png");
   loadSprite("mark", "/examples/sprites/mark.png");
   loadSound("bean_voice", "/examples/sounds/bean_voice.wav");
@@ -32,9 +32,9 @@ export function createTeacher() {
   // Teacher
   const teacher = add([
     sprite(teacherFaces.frontface.sprite),
-    scale(1),
+    scale(0.5),
     anchor("center"),
-    pos(center().add(0, -50)),
+    pos(center().add(0, -80)),
     layer("teacher"),
   ]);
 

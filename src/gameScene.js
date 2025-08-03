@@ -3,11 +3,22 @@ import { createTimer } from "./timer.js";
 import { createTeacher } from "./teacher.js";
 
 export function createGameScene(k) {
-  setLayers(["teacher", "desk", "pencilBox", "stickyNote", "iphone"], "desk");
+  setLayers(["background", "teacher", "desk", "pencilBox", "stickyNote", "iphone"], "background");
   const pencilBox = createPencilBox();
   const timer = createTimer();
   const teacher = createTeacher(k);
   // This rect object will be replace with user image
+  loadSprite("background", "public/sprites/bg.png");
+  const bg = add([
+    sprite("background"),
+    pos(0, 0),
+    anchor("topleft"),
+    layer("background"), 
+    fixed(),
+    scale(0.5),
+  ]);
+
+
   k.add([
     k.pos(k.width() / 2 - 300, k.height() - 400),
     k.rect(600, 400), //length is 600, width is 400
