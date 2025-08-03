@@ -14,6 +14,7 @@ export function createGameScene(k) {
       "stickyNote",
       "iphone",
       "paper",
+      "timer",
     ],
     "background"
   );
