@@ -27,12 +27,11 @@ export function createTeacher() {
   };
 
   const teacher = add([
-      sprite("teacher_back"),
-      pos(center().add(0, -80)),
-      anchor("center"),
-      scale(0.6),
-      "teacher",
-      layer("teacher"),
+    sprite(teacherFaces.frontface.sprite),
+    scale(0.8),
+    anchor("center"),
+    pos(center().sub(0, 320)),
+    layer("teacher"),
   ]);
 
   const STATES = {
