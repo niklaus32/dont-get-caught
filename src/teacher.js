@@ -44,12 +44,14 @@ export function createTeacher() {
 
   function setTeacherState(state) {
     currentState = state;
+    debug.log("Setting teacher state to:", state);
     if (state === STATES.FRONT)
       teacher.use(sprite(teacherFaces.frontface.sprite));
     else if (state === STATES.SIDE)
       teacher.use(sprite(teacherFaces.sideface.sprite));
     else if (state === STATES.BACK)
       teacher.use(sprite(teacherFaces.backface.sprite));
+    debug.log("Teacher sprite after state change:", teacher.sprite);
     if (state === STATES.FRONT) {
       onTeacherFront();
     }
