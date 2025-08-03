@@ -32,9 +32,9 @@ export function createTeacher() {
   // Teacher
   const teacher = add([
     sprite(teacherFaces.frontface.sprite),
-    scale(0.7),
+    scale(0.8),
     anchor("center"),
-    pos(center().sub(0, 340)),
+    pos(center().sub(0, 320)),
     layer("teacher"),
   ]);
 
