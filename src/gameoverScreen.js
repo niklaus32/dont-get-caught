@@ -13,6 +13,17 @@ export function showGameOverScreen(score) {
   // Load font
   loadBitmapFont("unscii", "public/examples/fonts/unscii_8x8.png", 8, 8);
 
+  // Load and play sound effect
+  loadSound("win_sound", "public/examples/sounds/win.mp3");
+  loadSound("lose_sound", "public/examples/sounds/lose.mp3");
+
+  // Play appropriate sound based on score
+  if (score >= 80) {
+    play("win_sound");
+  } else {
+    play("lose_sound");
+  }
+
   // Create semi-transparent overlay
   const overlay = add([
     rect(width(), height()),
@@ -86,6 +97,10 @@ export function showCheatingGameOverScreen() {
   // Load font
   loadBitmapFont("unscii", "public/examples/fonts/unscii_8x8.png", 8, 8);
 
+  // Load and play failure sound effect
+  loadSound("lose_sound", "public/examples/sounds/lose.mp3");
+  play("lose_sound");
+
   // Create semi-transparent overlay
   const overlay = add([
     rect(width(), height()),
@@ -146,7 +161,4 @@ export function showCheatingGameOverScreen() {
     // Restart the game by reloading the page
     location.reload();
   });
-
-  // Play failure sound effect (placeholder - you can add actual sound file)
-  // play("failure_sound");
 }

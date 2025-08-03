@@ -87,6 +87,8 @@ export function createTeacher() {
         break;
     }
   }
+
+  return teacher;
 }
 // Difficulty level will determine the teacher's face change
 // The hard, the teacher will change face more often, more fake turns, shorter time to stay backwords
