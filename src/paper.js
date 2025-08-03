@@ -404,11 +404,31 @@ export function createPaper(pencilBox) {
     // Hide test paper when pencil box is enlarged
     if (pencilBox) {
         onUpdate(() => {
-            if (testPaper && !isEnlarged) {
-                // Hide test paper when pencil box is enlarged
-                testPaper.opacity = pencilBox.isEnlarged ? 0 : 1;
-                // Also hide instruction text when pencil box is open
-                instructionText.opacity = pencilBox.isEnlarged ? 0 : 1;
+            if (testPaper) {
+                if (!isEnlarged) {
+                    // Hide test paper when pencil box is enlarged
+                    testPaper.opacity = pencilBox.isEnlarged ? 0 : 1;
+                    // Disable/enable clicking when pencil box is enlarged
+                    testPaper.area.enabled = !pencilBox.isEnlarged;
+                    // Also hide instruction text when pencil box is open
+                    instructionText.opacity = pencilBox.isEnlarged ? 0 : 1;
+                    // Hide paper title when pencil box is enlarged
+                    const paperTitleObj = get("paperTitle")[0];
+                    if (paperTitleObj) {
+                        paperTitleObj.opacity = pencilBox.isEnlarged ? 0 : 1;
+                    }
+                } else {
+                    // When test paper is enlarged, hide all test content when pencil box is opened
+                    paperTexts.forEach(textObj => {
+                        if (textObj && textObj.exists) {
+                            textObj.opacity = pencilBox.isEnlarged ? 0 : 1;
+                            // Disable clicking on interactive elements
+                            if (textObj.area) {
+                                textObj.area.enabled = !pencilBox.isEnlarged;
+                            }
+                        }
+                    });
+                }
             }
         });
     }
