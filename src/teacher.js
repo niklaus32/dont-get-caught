@@ -1,5 +1,5 @@
 export function createTeacher() {
-  loadSprite("teacher_front", "sprites/teacher_front.png");
+  loadSprite("teacher_front", "sprites/teacher_front1.png");
   loadSprite("teacher_side", "sprites/teacher_side.png");
   loadSprite("teacher_back", "sprites/teacher_back.png");
   loadSprite("bean", "/examples/sprites/bean.png");
