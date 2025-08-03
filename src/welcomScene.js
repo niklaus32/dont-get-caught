@@ -1,13 +1,14 @@
 
 export function createWelcomeScene(k) {
     loadBitmapFont("happy", "/examples/fonts/happy_28x36.png", 28, 36);
+    loadSound("buttonPress", "/sounds/buttonPress.mp3");
       // Add a background layer
     k.add([
         k.rect(k.width(), k.height()), // Create a rectangle that covers the screen
         k.pos(0, 0),
         k.color(135, 206, 235), // A light sky blue color
         k.z(-1), // Set z-index to -1 to be behind everything else
-    ]);
+    ]);1
 
     // Add a simple text object to the center of the screen
     const title = k.add([
@@ -57,8 +58,12 @@ export function createWelcomeScene(k) {
 
     // Button click event
     startButton.onClick(() => {
+        play("buttonPress", {
+            volume: 9,
+            speed: 1.5,
+        })
         k.go("game"); // Transition to the game scene
-    });
+    })
 
     // Button hover effects
     startButton.onHover(() => {

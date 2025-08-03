@@ -15,12 +15,13 @@ export function createGameScene(k) {
       "iphone",
       "paper",
       "text",
+      "ui",
     ],
     "background"
   );
-  const pencilBox = createPencilBox();
-  const timer = createTimer();
   const teacher = createTeacher(k);
+  const pencilBox = createPencilBox(teacher);
+  const timer = createTimer();
   const paper = createPaper();
 
   // This rect object will be replace with user image
