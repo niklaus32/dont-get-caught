@@ -49,8 +49,8 @@ export function createNotes(pencilBox) {
     });
 
     const secretNotes = [];
-    const NOTE_SCALE = 0.1;
-    const NOTE_MARGIN = 10;
+    const NOTE_SCALE = 0.15;  // Slightly bigger notes
+    const NOTE_MARGIN = 150;   // More margin for better spacing
     
     // Question-answer pairs for the sticky notes
     const questionAnswerPairs = [
@@ -67,17 +67,26 @@ export function createNotes(pencilBox) {
     ];
     
     for (let i = 0; i < 10; i++) {
-        // Calculate local position inside parent bounds (world coordinates, anchor center)
+        // Create a more scattered grid pattern instead of random placement
         const pw = pencilBox.width * pencilBox.scale.x;
         const ph = pencilBox.height * pencilBox.scale.y;
         const nw = 64 * NOTE_SCALE;
         const nh = 64 * NOTE_SCALE;
-        const minX = pencilBox.pos.x - pw / 2 + nw / 2 + NOTE_MARGIN;
-        const maxX = pencilBox.pos.x + pw / 2 - nw / 2 - NOTE_MARGIN;
-        const minY = pencilBox.pos.y - ph / 2 + nh / 2 + NOTE_MARGIN;
-        const maxY = pencilBox.pos.y + ph / 2 - nh / 2 - NOTE_MARGIN;
-        const x = rand(minX, maxX);
-        const y = rand(minY, maxY);
+        
+        // Create a scattered grid (2 columns, 5 rows)
+        const col = i % 2;
+        const row = Math.floor(i / 2);
+        const gridSpacingX = (pw - NOTE_MARGIN * 2) / 2;
+        const gridSpacingY = (ph - NOTE_MARGIN * 2) / 5;
+        
+        // Base position with some random offset for natural scatter
+        const baseX = pencilBox.pos.x - pw / 2 + NOTE_MARGIN + col * gridSpacingX + gridSpacingX / 2;
+        const baseY = pencilBox.pos.y - ph / 2 + NOTE_MARGIN + row * gridSpacingY + gridSpacingY / 2;
+        
+        // Add some random scatter within the grid cell
+        const scatterRange = 30;
+        const x = baseX + rand(-scatterRange, scatterRange);
+        const y = baseY + rand(-scatterRange, scatterRange);
         
         const note = add([
             sprite("stickyNote"),
@@ -100,12 +109,12 @@ export function createNotes(pencilBox) {
             const noteText = note.add([
                 text(questionAnswerPairs[i], {
                     font: "unscii",
-                    size: 8,  // Increased font size for better readability
+                    size: 120,  // Increased font size for better readability
                 }),
                 pos(0, 0),  // Relative position to parent (centered)
                 anchor("center"),
                 color(rgb(0, 0, 0)),
-                layer("paper"),
+                layer("stickyNote"),
                 "noteText"
             ]);
             

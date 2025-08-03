@@ -1,6 +1,6 @@
 import { showGameOverScreen } from "./gameoverScreen.js";
 
-export function createPaper() {
+export function createPaper(pencilBox) {
     loadBitmapFont("unscii", "public/examples/fonts/unscii_8x8.png", 8, 8);
 
     const paperSize = 0.4;
@@ -397,6 +397,18 @@ export function createPaper() {
         layer(),
         "paperInstruction",
     ]);
+    
+    // Hide test paper when pencil box is enlarged
+    if (pencilBox) {
+        onUpdate(() => {
+            if (testPaper && !isEnlarged) {
+                // Hide test paper when pencil box is enlarged
+                testPaper.opacity = pencilBox.isEnlarged ? 0 : 1;
+                // Also hide instruction text when pencil box is open
+                instructionText.opacity = pencilBox.isEnlarged ? 0 : 1;
+            }
+        });
+    }
     
     return {
         testPaper: testPaper,
