@@ -48,17 +48,9 @@ export function createGameScene(k) {
   let currentInput = "";
   let finalText = "";
   let inputText;
-  const phone_icon = k.add([
-    k.sprite("phone"),
-    k.pos(k.width() / 2, k.height() / 2),
-    k.scale(0.1), // scale to 50%
-    k.area(), // enables hover/click
-    layer("iphone"),
-    "phone_icon",
-  ]);
 
-  // Disable the phone icon for now
-  k.destroy(phone_icon);
+
+
 
   function inputTextUpdate(w, h) {
     // destroy old
@@ -122,39 +114,39 @@ export function createGameScene(k) {
       }
     });
   }
-  phone_icon.onClick(() => {
-    // Check if teacher is watching (front face)
-    debug.log("Teacher sprite:", teacher.sprite);
-    if (teacher.sprite === "teacher_front") {
-      // Teacher is watching, cheating detected!
-      debug.log("Cheating detected! Teacher is watching!");
-      showCheatingGameOverScreen();
-      return;
-    }
+  // phone_icon.onClick(() => {
+  //   // Check if teacher is watching (front face)
+  //   debug.log("Teacher sprite:", teacher.sprite);
+  //   if (teacher.sprite === "teacher_frontface") {
+  //     // Teacher is watching, cheating detected!
+  //     debug.log("Cheating detected! Teacher is watching!");
+  //     showCheatingGameOverScreen();
+  //     return;
+  //   }
 
-    if (!iphoneState) {
-      phoneWindow = k.add([k.sprite("google"), k.pos(k.width() / 3, 0)]);
-      google_width = phoneWindow.width;
-      k.destroy(phoneWindow);
-      currentInput = "";
-      phoneWindow = k.add([
-        k.sprite("google"),
-        k.pos(k.width() / 2 - (google_width * 1.2) / 2, -120),
-        k.scale(1.2),
-      ]);
-      currentInput = "";
-      create_close_button(
-        k.width() / 2 -
-          (google_width * 1.2) / 2 +
-          google_width * 1.2 -
-          closeWidth,
-        0
-      );
-      inputTextUpdate(
-        k.width() / 2 - (google_width * 1.2) / 2 + 20,
-        k.height() / 2 + 20
-      );
-    }
-    iphoneState = !iphoneState;
-  });
+  //   if (!iphoneState) {
+  //     phoneWindow = k.add([k.sprite("google"), k.pos(k.width() / 3, 0)]);
+  //     google_width = phoneWindow.width;
+  //     k.destroy(phoneWindow);
+  //     currentInput = "";
+  //     phoneWindow = k.add([
+  //       k.sprite("google"),
+  //       k.pos(k.width() / 2 - (google_width * 1.2) / 2, -120),
+  //       k.scale(1.2),
+  //     ]);
+  //     currentInput = "";
+  //     create_close_button(
+  //       k.width() / 2 -
+  //         (google_width * 1.2) / 2 +
+  //         google_width * 1.2 -
+  //         closeWidth,
+  //       0
+  //     );
+  //     inputTextUpdate(
+  //       k.width() / 2 - (google_width * 1.2) / 2 + 20,
+  //       k.height() / 2 + 20
+  //     );
+  //   }
+  //   iphoneState = !iphoneState;
+  // });
 }
