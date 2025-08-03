@@ -10,7 +10,7 @@ export function showGameOverScreen(scoreData) {
   // Load and play sound effect
   loadSound("win_sound", "sounds/win.mp3");
   loadSound("lose_sound", "sounds/lose.mp3");
-
+  loadSound("buttonPress", "/sounds/buttonPress.mp3");  
   // Play appropriate sound based on score
   if (score >= 80) {
     play("win_sound");
@@ -93,6 +93,7 @@ export function showGameOverScreen(scoreData) {
   // Restart game on click
   restartButton.onClick(() => {
     // Restart the game by reloading the page
+    play("buttonPress");
     location.reload();
   });
 }
