@@ -1,12 +1,12 @@
 import kaplay from "kaplay";
-import { createTimer } from "./timer.js";
+
 
 const k = kaplay({
   width: 900, // Game canvas width
   height: 900, // Game canvas height
   background: "#5ba675", // Background color
   font: "happy", // Default font
-
+  
   // Game settings
   scale: 1, // Initial scale factor
   pixelDensity: 1, // Pixel density for high DPI displays
@@ -28,6 +28,7 @@ const k = kaplay({
   maxFPS: 60, // Maximum frames per second
 });
 
+setVolume(0.5);
 // Load the default font
 k.loadBitmapFont("happy", "/examples/fonts/happy_28x36.png", 28, 36);
 
