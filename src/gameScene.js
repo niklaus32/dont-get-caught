@@ -15,6 +15,7 @@ export function createGameScene(k) {
       "iphone",
       "paper",
       "text",
+      "timer",
       "ui",
     ],
     "background"

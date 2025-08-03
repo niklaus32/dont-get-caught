@@ -28,7 +28,7 @@ const k = kaplay({
   maxFPS: 60, // Maximum frames per second
 });
 
-setVolume(0.5);
+setVolume(1);
 // Load the default font
 k.loadBitmapFont("happy", "/examples/fonts/happy_28x36.png", 28, 36);
 

@@ -2,7 +2,8 @@ import { showGameOverScreen } from "./gameoverScreen.js";
 
 export function createPaper() {
     loadBitmapFont("unscii", "public/examples/fonts/unscii_8x8.png", 8, 8);
-
+    loadSound("pickupPaper", "public/sounds/pickupPaper1.mp3");
+    loadSound("putdownPaper", "public/sounds/putdownPaper.mp3");
     const paperSize = 0.4;
     let testPaper = null;
     let answers = ["", "", "", "", "", "", "", "", "", ""]; // 10 blank answers
@@ -97,6 +98,7 @@ export function createPaper() {
     testPaper.onClick(() => {
         if (!isEnlarged) {
             openTestPaper();
+            play("pickupPaper");
         }
     });
     
@@ -382,6 +384,7 @@ export function createPaper() {
     // ESC key to close test paper
     onKeyPress("escape", () => {
         if (isEnlarged) {
+            play("putdownPaper");
             closeTestPaper();
         }
     });

@@ -8,7 +8,7 @@ export function createWelcomeScene(k) {
         k.pos(0, 0),
         k.color(135, 206, 235), // A light sky blue color
         k.z(-1), // Set z-index to -1 to be behind everything else
-    ]);1
+    ]);
 
     // Add a simple text object to the center of the screen
     const title = k.add([
