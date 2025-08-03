@@ -225,7 +225,7 @@ export function createPaper() {
             const questionText = add([
                 text(question, {
                     font: "unscii",
-                    size: 10,
+                    size: 18,
                     width: 500,
                 }),
                 pos(width() / 2 - 250, questionY),
@@ -274,7 +274,7 @@ export function createPaper() {
         const instructions = add([
             text("Click on answer boxes to select, then type your answers. Press ESC to close.", {
                 font: "unscii",
-                size: 8,
+                size: 12,
                 width: 500,
                 align: "center",
             }),

@@ -1,5 +1,6 @@
 export function createNotes(pencilBox) {
-    loadSprite("stickyNote", "sprites/stickyNote.png")  
+    loadSprite("stickyNote", "sprites/stickyNote.png");
+    loadBitmapFont("unscii", "public/examples/fonts/unscii_8x8.png", 8, 8);  
     //Dragging secret notes
     let curDraggin = null;
     function drag() {
@@ -51,6 +52,21 @@ export function createNotes(pencilBox) {
     const secretNotes = [];
     const NOTE_SCALE = 0.1;
     const NOTE_MARGIN = 10;
+    
+    // Question-answer pairs for the sticky notes
+    const questionAnswerPairs = [
+        "@@@ a",    // Question 1
+        "##$ b",    // Question 2  
+        "OO* c",    // Question 3
+        "@#O* d",   // Question 4
+        "**@ e",    // Question 5
+        "O#* f",    // Question 6
+        "@O* g",    // Question 7
+        "#*# h",    // Question 8
+        "O@* i",    // Question 9
+        "@*# j",    // Question 10
+    ];
+    
     for (let i = 0; i < 10; i++) {
         // Calculate local position inside parent bounds (world coordinates, anchor center)
         const pw = pencilBox.width * pencilBox.scale.x;
@@ -63,6 +79,7 @@ export function createNotes(pencilBox) {
         const maxY = pencilBox.pos.y + ph / 2 - nh / 2 - NOTE_MARGIN;
         const x = rand(minX, maxX);
         const y = rand(minY, maxY);
+        
         const note = add([
             sprite("stickyNote"),
             pos(x, y),
@@ -73,7 +90,30 @@ export function createNotes(pencilBox) {
             drag(),
             layer("stickyNote"),
             "stickyNote",
+            {
+                content: questionAnswerPairs[i] || "", // Store the question-answer content
+                questionIndex: i
+            }
         ]);
+        
+        // Add text on the sticky note if it has content
+        if (questionAnswerPairs[i]) {
+            const noteText = note.add([
+                text(questionAnswerPairs[i], {
+                    font: "unscii",
+                    size: 8,  // Increased font size for better readability
+                }),
+                pos(0, 0),  // Relative position to parent (centered)
+                anchor("center"),
+                color(rgb(0, 0, 0)),
+                layer("paper"),
+                "noteText"
+            ]);
+            
+            // Store reference to the text in the note for easier management
+            note.noteText = noteText;
+        }
+        
         note.opacity = 0;
         secretNotes.push(note);
         note.onDrag(() => {
