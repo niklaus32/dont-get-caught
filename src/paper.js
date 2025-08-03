@@ -57,6 +57,7 @@ export function createPaper() {
         color(rgb(255, 255, 255)),
         outline(2, rgb(0, 0, 0)), // Black border
         area(),
+        layer("paper"),
         "testPaper",
         {
             isEnlarged: false,
@@ -74,6 +75,7 @@ export function createPaper() {
         pos(paperX, paperY - 20),
         anchor("center"),
         color(rgb(0, 0, 0)),
+        layer("paper"),
         "paperTitle",
     ]);
     
@@ -228,6 +230,7 @@ export function createPaper() {
                 }),
                 pos(width() / 2 - 250, questionY),
                 color(rgb(0, 0, 0)),
+                layer("paper"),
                 "questionText",
             ]);
             paperTexts.push(questionText);
@@ -239,6 +242,7 @@ export function createPaper() {
                 color(selectedBlank === index ? rgb(200, 200, 255) : rgb(240, 240, 240)),
                 outline(1, rgb(0, 0, 0)),
                 area(),
+                layer("paper"),
                 "answerBox",
                 {
                     questionIndex: index
@@ -254,6 +258,7 @@ export function createPaper() {
                 }),
                 pos(width() / 2 + 110, questionY + 5),
                 color(rgb(0, 0, 0)),
+                layer("paper"),
                 "answerText",
             ]);
             paperTexts.push(answerText);
@@ -288,6 +293,7 @@ export function createPaper() {
             color(rgb(100, 200, 100)),
             outline(2, rgb(0, 100, 0)),
             area(),
+            layer("paper"),
             "handInButton",
         ]);
         paperTexts.push(handInButton);
@@ -300,6 +306,7 @@ export function createPaper() {
             pos(width() / 2, startY + 600),
             anchor("center"),
             color(rgb(0, 0, 0)),
+            layer("paper"),
             "handInText",
         ]);
         paperTexts.push(handInText);
@@ -360,8 +367,13 @@ export function createPaper() {
         // Close the test paper first
         closeTestPaper();
         
-        // Trigger game over with the calculated score
-        showGameOverScreen(score.percentage, score.passed, score.correctCount, score.totalQuestions);
+        // Pass the score data directly to the gameover scene
+        go("gameover", {
+            percentage: score.percentage,
+            passed: score.passed,
+            correctCount: score.correctCount,
+            totalQuestions: score.totalQuestions
+        });
         
         debug.log(`Exam handed in! Score: ${score.percentage}% (${score.correctCount}/${score.totalQuestions})`);
     }

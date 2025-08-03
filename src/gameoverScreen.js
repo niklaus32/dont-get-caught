@@ -1,4 +1,9 @@
-export function showGameOverScreen(score, passed, correctCount, totalQuestions) {
+export function showGameOverScreen(scoreData) {
+  // Handle both old parameter style and new scoreData object
+  const score = scoreData?.percentage || scoreData || 0;
+  const passed = scoreData?.passed || false;
+  const correctCount = scoreData?.correctCount || 0;
+  const totalQuestions = scoreData?.totalQuestions || 10;
   // Load font
   loadBitmapFont("unscii", "public/examples/fonts/unscii_8x8.png", 8, 8);
 

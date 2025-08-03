@@ -45,7 +45,7 @@ import { showGameOverScreen } from "./gameoverScreen.js";
 
 scene("welcome", () => createWelcomeScene(k));
 scene("game", () => createGameScene(k));
-scene("gameover", () => showGameOverScreen(k));
+scene("gameover", (scoreData) => showGameOverScreen(scoreData));
 scene("paper", () => createPaper(k));
 
 function start() {
