@@ -15,22 +15,10 @@ export function createGameScene(k) {
     anchor("topleft"),
     layer("background"), 
     fixed(),
-    scale(0.5),
+    scale(width() / 1424, height() / 1424), // Adjust scale based on your background size
   ]);
 
 
-  k.add([
-    k.pos(k.width() / 2 - 300, k.height() - 400),
-    k.rect(600, 400), //length is 600, width is 400
-    k.color(k.BLUE),
-    "shape",
-    {
-      getShape() {
-        return new k.Rect(this.pos, this.width, this.height);
-      },
-    },
-    layer("desk"),
-  ]);
 
 
   // add iphone
