@@ -20,16 +20,16 @@ export function createPaper() {
     
     // Test questions
     const questions = [
-        "1. A",
-        "2. B",
-        "3. C",
-        "4. D",
-        "5. E",
-        "6. F",
-        "7. G",
-        "8. H",
-        "9. I",
-        "10. J"
+        "1. @@@",         // 3 at symbols
+        "2. ##$",         // 2 hashes, 1 dollar
+        "3. OO*",         // 2 letter O, 1 asterisk
+        "4. @#O*",        // 1 at, 1 hash, 1 O, 1 asterisk
+        "5. **@",         // 2 asterisks, 1 at
+        "6. O#*",         // 1 O, 1 hash, 1 asterisk
+        "7. @O*",         // 1 at, 1 O, 1 asterisk
+        "8. #*#",         // 2 hashes, 1 asterisk
+        "9. O@*",         // 1 O, 1 at, 1 asterisk
+        "10. @*#",        // 1 at, 1 asterisk, 1 hash
     ];
     
     // Correct answers (accepting both letter and full answer)
@@ -207,7 +207,7 @@ export function createPaper() {
             const questionText = add([
                 text(question, {
                     font: "unscii",
-                    size: 10,
+                    size: 18,
                     width: 500,
                 }),
                 pos(width() / 2 - 250, questionY),
@@ -256,7 +256,7 @@ export function createPaper() {
         const instructions = add([
             text("Click on answer boxes to select, then type your answers. Press ESC to close.", {
                 font: "unscii",
-                size: 8,
+                size: 12,
                 width: 500,
                 align: "center",
             }),
