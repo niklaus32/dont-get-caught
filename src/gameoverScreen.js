@@ -1,6 +1,6 @@
 export function showGameOverScreen(scoreData) {
   // Handle both old parameter style and new scoreData object
-  const score = scoreData?.percentage || scoreData || 0;
+  const score = scoreData?.percentage !== undefined ? scoreData.percentage : (typeof scoreData === 'number' ? scoreData : 0);
   const passed = scoreData?.passed || false;
   const correctCount = scoreData?.correctCount || 0;
   const totalQuestions = scoreData?.totalQuestions || 10;
