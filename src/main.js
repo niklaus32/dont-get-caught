@@ -17,7 +17,7 @@ const k = kaplay({
   // Input settings
 
   // Debug settings
-  debug: true, // Enable debug mode
+  debug: false, // Enable debug mode
   debugKey: "f1", // Key to toggle debug overlay
   burp: true, // Enable burp mode (fun sound effects)
 
