@@ -21,7 +21,7 @@ export function createGameScene(k) {
   const pencilBox = createPencilBox();
   const timer = createTimer();
   const teacher = createTeacher(k);
-  const paper = createPaper();
+  const paper = createPaper(pencilBox);
 
   // This rect object will be replace with user image
   loadSprite("background", "public/sprites/bg.png");

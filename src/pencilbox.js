@@ -41,6 +41,10 @@ export function createPencilBox(teacher = null) {
     }
     if (!pencilBox.isEnlarged) {
         setCursor("default");
+      
+      // Recreate secret notes each time pencil box is opened
+      createNotes(pencilBox);
+      
       tween(
         pencilBox.scale,
         vec2(2),
@@ -68,6 +72,20 @@ export function createPencilBox(teacher = null) {
   onKeyPress("escape", () => {
     setCursor("default");
     if (pencilBox.isEnlarged) {
+      // Clear all secret notes
+      get("stickyNote").forEach(note => {
+        if (note.exists) {
+          destroy(note);
+        }
+      });
+      
+      // Clear all note text
+      get("noteText").forEach(text => {
+        if (text.exists) {
+          destroy(text);
+        }
+      });
+      
       // Tween both scale and position back to original
       tween(
         pencilBox.scale,
@@ -92,8 +110,7 @@ export function createPencilBox(teacher = null) {
       });
     }
   });
-  const secretNotes = createNotes(pencilBox);
-
+  
   loadBitmapFont("unscii", "public/examples/fonts/unscii_8x8.png", 8, 8);
   const exitText = add([
     text("Press ESC to exit", {

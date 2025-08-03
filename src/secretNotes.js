@@ -100,7 +100,7 @@ export function createNotes(pencilBox) {
             const noteText = note.add([
                 text(questionAnswerPairs[i], {
                     font: "unscii",
-                    size: 8,  // Increased font size for better readability
+                    size: 120,  // Increased font size for better readability
                 }),
                 pos(0, 0),  // Relative position to parent (centered)
                 anchor("center"),
