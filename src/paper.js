@@ -68,15 +68,15 @@ export function createPaper() {
     ]);
     
     // Add paper title when not enlarged
-    const paperTitle = testPaper.add([
+    const paperTitle = add([
         text("TEST PAPER", {
             font: "unscii",
-            size: 8,
+            size: 12,
         }),
-        pos(paperX, paperY - 20),
+        pos(paperX - 30, paperY - 40), // Position relative to paper, moved further up
         anchor("center"),
         color(rgb(0, 0, 0)),
-        layer("text"),
+        layer("paper"), // Same layer as the paper
         "paperTitle",
     ]);
     
@@ -168,11 +168,12 @@ export function createPaper() {
             add([
                 text("TEST PAPER", {
                     font: "unscii",
-                    size: 8,
+                    size: 12,
                 }),
-                pos(testPaper.pos.x, testPaper.pos.y - 20),
+                pos(testPaper.pos.x - 30, testPaper.pos.y - 40),
                 anchor("center"),
                 color(rgb(0, 0, 0)),
+                layer("paper"),
                 "paperTitle",
             ]);
         });
