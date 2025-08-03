@@ -1,10 +1,9 @@
 import { showGameOverScreen } from "./gameoverScreen.js";
 
-export function createTimer() {
+export function createTimer(paperModule) {
   let timeLeft = 60;
   let timerText;
   let gameEnded = false;
-  let score = 0;
 
   loadBitmapFont("unscii", "public/examples/fonts/unscii_8x8.png", 8, 8);
 
@@ -28,12 +27,21 @@ export function createTimer() {
       timeLeft = 0;
       gameEnded = true;
 
-      // Calculate score based on time remaining and other factors
-      // For now, using a simple calculation - you can modify this
-      score = Math.floor(Math.random() * 100); // Placeholder score calculation
-
-      // Show game over screen (timer ended scenario)
-      showGameOverScreen(score);
+      // Calculate score from the paper module if available
+      let finalScore;
+      if (paperModule && paperModule.calculateScore) {
+        finalScore = paperModule.calculateScore();
+        showGameOverScreen(
+          finalScore.percentage,
+          finalScore.passed,
+          finalScore.correctCount,
+          finalScore.totalQuestions
+        );
+      } else {
+        // Fallback to random score if paper module not available
+        const randomScore = Math.floor(Math.random() * 100);
+        showGameOverScreen(randomScore, randomScore >= 80, 0, 10);
+      }
     }
 
     timerText.text = `Countdown: ${Math.ceil(timeLeft)}s`;
@@ -45,5 +53,13 @@ export function createTimer() {
     }
   });
 
-  return timerText;
+  return {
+    timerText: timerText,
+    endGame: () => {
+      if (!gameEnded) {
+        gameEnded = true;
+        timeLeft = 0;
+      }
+    },
+  };
 }

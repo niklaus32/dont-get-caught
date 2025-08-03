@@ -2,23 +2,35 @@ import { createPencilBox } from "./pencilbox.js";
 import { createTimer } from "./timer.js";
 import { createTeacher } from "./teacher.js";
 import { showCheatingGameOverScreen } from "./gameoverScreen.js";
+import { createPaper } from "./paper.js";
 
 export function createGameScene(k) {
-  const teacher = createTeacher(k);
-  const pencilBox = createPencilBox(teacher);
+  setLayers(
+    [
+      "background",
+      "teacher",
+      "desk",
+      "pencilBox",
+      "stickyNote",
+      "iphone",
+      "paper",
+    ],
+    "background"
+  );
+  const pencilBox = createPencilBox();
   const timer = createTimer();
+  const teacher = createTeacher(k);
+  const paper = createPaper();
 
   // This rect object will be replace with user image
-  k.add([
-    k.pos(k.width() / 2 - 300, k.height() - 400),
-    k.rect(600, 400), //length is 600, width is 400
-    k.color(k.BLUE),
-    "shape",
-    {
-      getShape() {
-        return new k.Rect(this.pos, this.width, this.height);
-      },
-    },
+  loadSprite("background", "public/sprites/bg.png");
+  const bg = add([
+    sprite("background"),
+    pos(0, 0),
+    anchor("topleft"),
+    layer("background"),
+    fixed(),
+    scale(width() / 1424, height() / 1424), // Adjust scale based on your background size
   ]);
 
   // add iphone
@@ -39,6 +51,7 @@ export function createGameScene(k) {
     k.pos(k.width() / 2, k.height() / 2),
     k.scale(0.1), // scale to 50%
     k.area(), // enables hover/click
+    layer("iphone"),
     "phone_icon",
   ]);
 
