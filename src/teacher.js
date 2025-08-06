@@ -30,7 +30,7 @@ export function createTeacher() {
     sprite(teacherFaces.frontface.sprite),
     scale(0.8),
     anchor("center"),
-    pos(center().sub(0, 320)),
+    pos(center().sub(0, 315)),
     layer("teacher"),
   ]);
 

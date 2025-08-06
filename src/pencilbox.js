@@ -10,7 +10,7 @@ export function createPencilBox(teacher = null) {
   const pencilBoxSize = 0.6;
   const pencilBox = add([
     sprite("pencilBox"),
-    pos(240, 500),
+    pos(256, 474),
     scale(pencilBoxSize),
     anchor("center"),
     area(), // enables hover/click
@@ -20,7 +20,7 @@ export function createPencilBox(teacher = null) {
 
   pencilBox.onHover(() => {
     if (!pencilBox.isEnlarged) {
-      pencilBox.scale = vec2(pencilBoxSize + 0.3);
+      pencilBox.scale = vec2(pencilBoxSize + 0.1);
       pencilBox.color = rgb(255, 220, 220);
       setCursor("pointer");
     }
