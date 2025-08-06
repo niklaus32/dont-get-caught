@@ -4,6 +4,7 @@ export function createPaper(pencilBox) {
     loadBitmapFont("unscii", "/examples/fonts/unscii_8x8.png", 8, 8);
     loadSound("pickupPaper", "/sounds/pickupPaper1.mp3");
     loadSound("putdownPaper", "/sounds/putdownPaper.mp3");
+
     const paperSize = 0.4;
     let testPaper = null;
     let answers = ["", "", "", "", "", "", "", "", "", ""]; // 10 blank answers
@@ -69,22 +70,25 @@ export function createPaper(pencilBox) {
     ]);
     
     // Add paper title when not enlarged
+    const titleSize = 12;
     const paperTitle = add([
         text("TEST PAPER", {
             font: "unscii",
-            size: 12,
+            size: titleSize,
         }),
         pos(paperX - 30, paperY - 40), // Position relative to paper, moved further up
         anchor("center"),
         color(rgb(0, 0, 0)),
-        layer("paper"), // Same layer as the paper
+        layer("ui"), // Same layer as the paper
         "paperTitle",
     ]);
-    
+
     // Hover effects
+    const scaleIncrement = 0.05;
     testPaper.onHover(() => {
         if (!isEnlarged) {
-            testPaper.scale = vec2(paperSize + 0.05); // Slightly enlarge on hover
+            testPaper.scale = vec2(paperSize + scaleIncrement); // Slightly enlarge on hover
+            paperTitle.textSize = titleSize * (1.05 + scaleIncrement);
         }
         setCursor("pointer");
     });
@@ -92,6 +96,7 @@ export function createPaper(pencilBox) {
     testPaper.onHoverEnd(() => {
         if (!isEnlarged) {
             testPaper.scale = vec2(paperSize); // Return to original size
+            paperTitle.textSize = titleSize;
         }
         setCursor("default");
     });
@@ -106,12 +111,7 @@ export function createPaper(pencilBox) {
     
     function openTestPaper() {
         isEnlarged = true;
-        
-        // Hide the title
-        if (paperTitle) {
-            destroy(paperTitle);
-        }
-        
+        paperTitle.opacity = paperTitle ? 0 : 1; // Hide the title
         // Animate to center and enlarge
         tween(
             testPaper.pos,
@@ -122,7 +122,6 @@ export function createPaper(pencilBox) {
             },
             easings.easeOutBack
         );
-        
         tween(
             testPaper.scale,
             vec2(2.0), // Scale up to 2x size
@@ -168,18 +167,8 @@ export function createPaper(pencilBox) {
             easings.easeInOutSine
         ).then(() => {
             isEnlarged = false;
-            // Recreate title
-            add([
-                text("TEST PAPER", {
-                    font: "unscii",
-                    size: 12,
-                }),
-                pos(testPaper.pos.x - 30, testPaper.pos.y - 40),
-                anchor("center"),
-                color(rgb(0, 0, 0)),
-                layer("paper"),
-                "paperTitle",
-            ]);
+            paperTitle.opacity = paperTitle ? 1 : 0; //show title
+            paperTitle.textSize = titleSize;
         });
     }
     
@@ -266,7 +255,7 @@ export function createPaper(pencilBox) {
             }),
             pos(width() / 2, startY + 550),
             anchor("center"),
-            color(rgb(100, 100, 100)),
+            color(rgb(0, 0, 0)),
             "instructions",
         ]);
         paperTexts.push(instructions);
@@ -398,7 +387,7 @@ export function createPaper(pencilBox) {
             size: 12,
         }),
         pos(20, height() - 60),
-        color(rgb(255, 255, 255)),
+        color(rgb(0, 0, 0)),
         layer(),
         "paperInstruction",
     ]);
