@@ -1,9 +1,9 @@
 import { showGameOverScreen } from "./gameoverScreen.js";
 
 export function createPaper(pencilBox) {
-    loadBitmapFont("unscii", "public/examples/fonts/unscii_8x8.png", 8, 8);
-    loadSound("pickupPaper", "public/sounds/pickupPaper1.mp3");
-    loadSound("putdownPaper", "public/sounds/putdownPaper.mp3");
+    loadBitmapFont("unscii", "/examples/fonts/unscii_8x8.png", 8, 8);
+    loadSound("pickupPaper", "/sounds/pickupPaper1.mp3");
+    loadSound("putdownPaper", "/sounds/putdownPaper.mp3");
     const paperSize = 0.4;
     let testPaper = null;
     let answers = ["", "", "", "", "", "", "", "", "", ""]; // 10 blank answers
@@ -51,7 +51,7 @@ export function createPaper(pencilBox) {
     const paperX = deskX + deskWidth / 2 + 200; // Offset to the right of the desk
     const paperY = deskY + deskHeight / 2;
     
-    loadSprite("testPaper", "public/sprites/exampaper.png");
+    loadSprite("testPaper", "/sprites/exampaper.png");
 
     testPaper = add([
         sprite("testPaper"),

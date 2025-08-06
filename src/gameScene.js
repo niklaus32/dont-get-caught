@@ -26,7 +26,7 @@ export function createGameScene(k) {
   const paper = createPaper(pencilBox);
 
   // This rect object will be replace with user image
-  loadSprite("background", "public/sprites/bg.png");
+  loadSprite("background", "/sprites/bg.png");
   const bg = add([
     sprite("background"),
     pos(0, 0),
@@ -37,9 +37,9 @@ export function createGameScene(k) {
   ]);
 
   // add iphone
-  k.loadSprite("phone", "../public/sprites/iphone.png");
-  k.loadSprite("google", "../public/sprites/google.png");
-  k.loadSprite("close", "../public/sprites/close.png");
+  k.loadSprite("phone", "/sprites/iphone.png");
+  k.loadSprite("google", "/sprites/google.png");
+  k.loadSprite("close", "/sprites/close.png");
   let googleText;
   let iphoneState = false;
   let phoneWindow;

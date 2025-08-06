@@ -120,7 +120,7 @@ export function createPencilBox(teacher = null) {
     }
   });
   
-  loadBitmapFont("unscii", "public/examples/fonts/unscii_8x8.png", 8, 8);
+  loadBitmapFont("unscii", "/examples/fonts/unscii_8x8.png", 8, 8);
   const exitText = add([
     text("Press ESC to exit", {
       font: "unscii",

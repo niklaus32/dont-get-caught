@@ -1,7 +1,7 @@
 
 export function createWelcomeScene(k) {
     loadBitmapFont("happy", "/examples/fonts/happy_28x36.png", 28, 36);
-    loadSprite("startscreen", "/public/sprites/startscreen.png");
+    loadSprite("startscreen", "/sprites/startscreen.png");
     loadSound("buttonPress", "/sounds/buttonPress.mp3");
       // Add a background layer
     k.add([

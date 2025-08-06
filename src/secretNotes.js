@@ -1,6 +1,6 @@
 export function createNotes(pencilBox) {
     loadSprite("stickyNote", "sprites/stickyNote.png");
-    loadBitmapFont("unscii", "public/examples/fonts/unscii_8x8.png", 8, 8);  
+    loadBitmapFont("unscii", "/examples/fonts/unscii_8x8.png", 8, 8);  
     //Dragging secret notes
     let curDraggin = null;
     function drag() {

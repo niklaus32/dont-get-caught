@@ -5,7 +5,7 @@ export function showGameOverScreen(scoreData) {
   const correctCount = scoreData?.correctCount || 0;
   const totalQuestions = scoreData?.totalQuestions || 10;
   // Load font
-  loadBitmapFont("unscii", "public/examples/fonts/unscii_8x8.png", 8, 8);
+  loadBitmapFont("unscii", "/examples/fonts/unscii_8x8.png", 8, 8);
 
   // Load and play sound effect
   loadSound("win_sound", "sounds/win.mp3");
@@ -104,10 +104,10 @@ export function showGameOverScreen(scoreData) {
 // - Any other cheating detection scenario
 export function showCheatingGameOverScreen() {
   // Load font
-  loadBitmapFont("unscii", "public/examples/fonts/unscii_8x8.png", 8, 8);
+  loadBitmapFont("unscii", "/examples/fonts/unscii_8x8.png", 8, 8);
 
   // Load and play failure sound effect
-  loadSound("lose_sound", "public/examples/sounds/lose.mp3");
+  loadSound("lose_sound", "/examples/sounds/lose.mp3");
   play("lose_sound");
 
   // Create semi-transparent overlay

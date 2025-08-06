@@ -5,7 +5,7 @@ export function createTimer(paperModule) {
   let timerText;
   let gameEnded = false;
 
-  loadBitmapFont("unscii", "public/examples/fonts/unscii_8x8.png", 8, 8);
+  loadBitmapFont("unscii", "/examples/fonts/unscii_8x8.png", 8, 8);
 
   timerText = add([
     text(`Countdown: ${timeLeft}s`, {
