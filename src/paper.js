@@ -86,12 +86,14 @@ export function createPaper(pencilBox) {
         if (!isEnlarged) {
             testPaper.scale = vec2(paperSize + 0.05); // Slightly enlarge on hover
         }
+        setCursor("pointer");
     });
     
     testPaper.onHoverEnd(() => {
         if (!isEnlarged) {
             testPaper.scale = vec2(paperSize); // Return to original size
         }
+        setCursor("default");
     });
     
     // Click to enlarge test paper

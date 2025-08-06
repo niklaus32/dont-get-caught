@@ -36,7 +36,6 @@ export function createPencilBox(teacher = null) {
 
   // Enlarge and show writing on click
   pencilBox.onClick(() => {
-    play("zipperOpen", { volume: 1,});
     // Check if teacher is watching (front face)
     debug.log("PencilBox clicked! Teacher:", teacher);
     debug.log("Teacher sprite:", teacher ? teacher.sprite : "null");
@@ -49,7 +48,7 @@ export function createPencilBox(teacher = null) {
     }
     if (!pencilBox.isEnlarged) {
         setCursor("default");
-      
+        play("zipperOpen", { volume: 1,});
       // Recreate secret notes each time pencil box is opened
       createNotes(pencilBox);
       
@@ -78,8 +77,8 @@ export function createPencilBox(teacher = null) {
   });
   //close pencilbox
   onKeyPress("escape", () => {
-    setCursor("default");
     if (pencilBox.isEnlarged) {
+        setCursor("default");
         play("zipperClose", { volum: 1});
       // Clear all secret notes
       get("stickyNote").forEach(note => {
@@ -87,7 +86,6 @@ export function createPencilBox(teacher = null) {
           destroy(note);
         }
       });
-      
       // Clear all note text
       get("noteText").forEach(text => {
         if (text.exists) {
