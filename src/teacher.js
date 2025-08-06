@@ -65,7 +65,7 @@ export function createTeacher() {
   }
   // Difficulty level will determine the teacher's face change
   // The hard, the teacher will change face more often, more fake turns, shorter time to stay backwords
-  const difficultyLevel = 1;
+  let difficultyLevel = 1;
 
   function updateDifficultyLevel() {
     // Update the difficulty level based on the current game state
