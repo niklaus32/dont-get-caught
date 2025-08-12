@@ -20,10 +20,15 @@ export function createGameScene(k) {
     ],
     "background"
   );
+
+  
+  let gameState = {
+    isSomethingOpen: false,
+  };
   const teacher = createTeacher(k);
-  const pencilBox = createPencilBox(teacher);
+  const pencilBox = createPencilBox(teacher, gameState);
   const timer = createTimer();
-  const paper = createPaper(pencilBox);
+  const paper = createPaper(pencilBox, gameState);
 
   // This rect object will be replace with user image
   loadSprite("background", "/sprites/bg.png");

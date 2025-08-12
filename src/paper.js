@@ -1,6 +1,6 @@
 import { showGameOverScreen } from "./gameoverScreen.js";
 
-export function createPaper(pencilBox) {
+export function createPaper(pencilBox, gameState) {
     loadBitmapFont("unscii", "/examples/fonts/unscii_8x8.png", 8, 8);
     loadSound("pickupPaper", "/sounds/pickupPaper1.mp3");
     loadSound("putdownPaper", "/sounds/putdownPaper.mp3");
@@ -86,7 +86,7 @@ export function createPaper(pencilBox) {
     // Hover effects
     const scaleIncrement = 0.05;
     testPaper.onHover(() => {
-        if (!isEnlarged) {
+        if (!isEnlarged && !gameState.isSomethingOpen) {
             testPaper.scale = vec2(paperSize + scaleIncrement); // Slightly enlarge on hover
             paperTitle.textSize = titleSize * (1.05 + scaleIncrement);
         }
@@ -94,7 +94,7 @@ export function createPaper(pencilBox) {
     });
     
     testPaper.onHoverEnd(() => {
-        if (!isEnlarged) {
+        if (!isEnlarged && !gameState.isSomethingOpen) {
             testPaper.scale = vec2(paperSize); // Return to original size
             paperTitle.textSize = titleSize;
         }
@@ -103,9 +103,11 @@ export function createPaper(pencilBox) {
     
     // Click to enlarge test paper
     testPaper.onClick(() => {
-        if (!isEnlarged) {
-            openTestPaper();
+        if (!isEnlarged && !gameState.isSomethingOpen) {
             play("pickupPaper");
+            openTestPaper();
+            setCursor("default");
+            gameState.isSomethingOpen = true;
         }
     });
     
@@ -225,6 +227,16 @@ export function createPaper(pencilBox) {
             ]);
             paperTexts.push(answerBox);
             
+            answerBox.onHover(() => {
+                if (isEnlarged) {
+                    setCursor("pointer");
+                }
+            })
+            answerBox.onHoverEnd(() => {
+                if(isEnlarged) {
+                    setCursor("default");
+                }
+            })
             // Answer text
             const answerText = add([
                 text(answers[index], {
@@ -289,6 +301,16 @@ export function createPaper(pencilBox) {
         // Hand-in button click handler
         handInButton.onClick(() => {
             handInExam();
+        });
+        handInButton.onHover(() => {
+            if (isEnlarged) {
+                setCursor("pointer");
+            }
+        });
+        handInButton.onHoverEnd(() => {
+            if (isEnlarged) {
+                setCursor("default");
+            }
         });
     }
     
@@ -377,6 +399,8 @@ export function createPaper(pencilBox) {
         if (isEnlarged) {
             play("putdownPaper");
             closeTestPaper();
+            setCursor("default");
+            gameState.isSomethingOpen = false;
         }
     });
     

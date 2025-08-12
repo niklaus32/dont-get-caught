@@ -11,6 +11,7 @@ export function showGameOverScreen(scoreData) {
   loadSound("win_sound", "sounds/win.mp3");
   loadSound("lose_sound", "sounds/lose.mp3");
   loadSound("buttonPress", "/sounds/buttonPress.mp3");  
+  setCursor("default");
   // Play appropriate sound based on score
   if (score >= 80) {
     play("win_sound");
@@ -84,10 +85,12 @@ export function showGameOverScreen(scoreData) {
   // Button hover effect
   restartButton.onHover(() => {
     restartButton.color = rgb(255, 255, 0);
+    setCursor("pointer");
   });
 
   restartButton.onHoverEnd(() => {
     restartButton.color = rgb(255, 255, 255);
+    setCursor("default");
   });
 
   // Restart game on click
@@ -109,7 +112,7 @@ export function showCheatingGameOverScreen() {
   // Load and play failure sound effect
   loadSound("lose_sound", "/examples/sounds/lose.mp3");
   play("lose_sound");
-
+  setCursor("default");
   // Create semi-transparent overlay
   const overlay = add([
     rect(width(), height()),
@@ -159,15 +162,17 @@ export function showCheatingGameOverScreen() {
   // Button hover effect
   restartButton.onHover(() => {
     restartButton.color = rgb(255, 255, 0);
+    setCursor("pointer")
   });
 
   restartButton.onHoverEnd(() => {
     restartButton.color = rgb(255, 255, 255);
+    setCursor("default")
   });
 
   // Restart game on click
   restartButton.onClick(() => {
     // Restart the game by reloading the page
-    location.reload();
+    go("welcome");
   });
 }

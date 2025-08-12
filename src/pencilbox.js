@@ -1,7 +1,7 @@
 import { createNotes } from "./secretNotes.js";
 import { showCheatingGameOverScreen } from "./gameoverScreen.js";
 
-export function createPencilBox(teacher = null) {
+export function createPencilBox(teacher = null, gameState) {
     loadSprite("pencilBox", "sprites/pencilcase.png");
     loadSound("zipperOpen", "sounds/zipperOpen.mp3");
     loadSound("zipperClose", "sounds/zipperClose.mp3");
@@ -19,14 +19,14 @@ export function createPencilBox(teacher = null) {
   ]);
 
   pencilBox.onHover(() => {
-    if (!pencilBox.isEnlarged) {
+    if (!pencilBox.isEnlarged && !gameState.isSomethingOpen) {
       pencilBox.scale = vec2(pencilBoxSize + 0.1);
       pencilBox.color = rgb(255, 220, 220);
       setCursor("pointer");
     }
   });
   pencilBox.onHoverEnd(() => {
-    if (!pencilBox.isEnlarged) {
+    if (!pencilBox.isEnlarged && !gameState.isSomethingOpen) {
       pencilBox.scale = vec2(pencilBoxSize);
       pencilBox.color = rgb(255, 255, 255);
       pencilBox.isEnlarged = false;
@@ -36,19 +36,22 @@ export function createPencilBox(teacher = null) {
 
   // Enlarge and show writing on click
   pencilBox.onClick(() => {
-    // Check if teacher is watching (front face)
-    debug.log("PencilBox clicked! Teacher:", teacher);
-    debug.log("Teacher sprite:", teacher ? teacher.sprite : "null");
-    if (teacher && teacher.sprite === "teacher_front") {
-      // Teacher is watching, cheating detected!
-      play("caught");
-      debug.log("Cheating detected! Teacher is watching!");
-      showCheatingGameOverScreen();
-      return;
-    }
-    if (!pencilBox.isEnlarged) {
-        setCursor("default");
-        play("zipperOpen", { volume: 1,});
+    if (!pencilBox.isEnlarged && !gameState.isSomethingOpen) {
+      setCursor("default");
+      play("zipperOpen", { volume: 1,});
+      gameState.isSomethingOpen = true;
+
+
+      // Check if teacher is watching (front face)
+      debug.log("PencilBox clicked! Teacher:", teacher);
+      debug.log("Teacher sprite:", teacher ? teacher.sprite : "null");
+      if (teacher && teacher.sprite === "teacher_front") {
+        // Teacher is watching, cheating detected!
+        play("caught");
+        debug.log("Cheating detected! Teacher is watching!");
+        showCheatingGameOverScreen();
+        return;
+      }
       // Recreate secret notes each time pencil box is opened
       createNotes(pencilBox);
       
@@ -80,6 +83,7 @@ export function createPencilBox(teacher = null) {
     if (pencilBox.isEnlarged) {
         setCursor("default");
         play("zipperClose", { volum: 1});
+        gameState.isSomethingOpen = false;
       // Clear all secret notes
       get("stickyNote").forEach(note => {
         if (note.exists) {
@@ -106,7 +110,7 @@ export function createPencilBox(teacher = null) {
 
       tween(
         pencilBox.pos,
-        pencilBox.originalPos || vec2(240, 500),
+        pencilBox.originalPos || vec2(256, 474),
         0.3,
         (val) => {
           pencilBox.pos = val;
